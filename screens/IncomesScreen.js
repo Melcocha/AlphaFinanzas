@@ -86,12 +86,13 @@ const IncomesScreen = () => {
               <View>
                 <Image
                   contentFit="cover"
-                  source={require("../assets/heart-1.png")}
+                  source={require("../assets/salario-1.png")}
                 />
               </View>
               <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salud</Text>
-                <Text>Compra de medicina</Text>
+                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salario</Text>
+                <Text>Salario Extra
+                </Text>
               </View>
               <View
                 style={{
@@ -102,7 +103,7 @@ const IncomesScreen = () => {
               >
                 <View>
                   <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $50.00
+                    $100.00
                   </Text>
                   <Text>Principal</Text>
                 </View>
@@ -112,12 +113,13 @@ const IncomesScreen = () => {
               <View>
                 <Image
                   contentFit="cover"
-                  source={require("../assets/heart-1.png")}
+                  source={require("../assets/salario-1.png")}
                 />
               </View>
               <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salud</Text>
-                <Text>Compra de medicina</Text>
+                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salario</Text>
+                <Text>Salario Extra
+                </Text>
               </View>
               <View
                 style={{
@@ -128,33 +130,7 @@ const IncomesScreen = () => {
               >
                 <View>
                   <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $50.00
-                  </Text>
-                  <Text>Principal</Text>
-                </View>
-              </View>
-            </View>
-            <View style={styles.lista}>
-              <View>
-                <Image
-                  contentFit="cover"
-                  source={require("../assets/heart-1.png")}
-                />
-              </View>
-              <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salud</Text>
-                <Text>Compra de medicina</Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  width: "100%",
-                  flexDirection: "row-reverse",
-                }}
-              >
-                <View>
-                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $50.00
+                    $100.00
                   </Text>
                   <Text>Principal</Text>
                 </View>
@@ -167,12 +143,13 @@ const IncomesScreen = () => {
               <View>
                 <Image
                   contentFit="cover"
-                  source={require("../assets/heart-1.png")}
+                  source={require("../assets/salario-1.png")}
                 />
               </View>
               <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salud</Text>
-                <Text>Compra de medicina</Text>
+                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salario</Text>
+                <Text>Salario Extra
+                </Text>
               </View>
               <View
                 style={{
@@ -183,7 +160,7 @@ const IncomesScreen = () => {
               >
                 <View>
                   <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $50.00
+                    $100.00
                   </Text>
                   <Text>Principal</Text>
                 </View>
@@ -193,12 +170,13 @@ const IncomesScreen = () => {
               <View>
                 <Image
                   contentFit="cover"
-                  source={require("../assets/heart-1.png")}
+                  source={require("../assets/salario-1.png")}
                 />
               </View>
               <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salud</Text>
-                <Text>Compra de medicina</Text>
+                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salario</Text>
+                <Text>Salario Extra
+                </Text>
               </View>
               <View
                 style={{
@@ -209,7 +187,7 @@ const IncomesScreen = () => {
               >
                 <View>
                   <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $50.00
+                    $100.00
                   </Text>
                   <Text>Principal</Text>
                 </View>
@@ -219,12 +197,13 @@ const IncomesScreen = () => {
               <View>
                 <Image
                   contentFit="cover"
-                  source={require("../assets/heart-1.png")}
+                  source={require("../assets/salario-1.png")}
                 />
               </View>
               <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salud</Text>
-                <Text>Compra de medicina</Text>
+                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salario</Text>
+                <Text>Salario Extra
+                </Text>
               </View>
               <View
                 style={{
@@ -235,7 +214,7 @@ const IncomesScreen = () => {
               >
                 <View>
                   <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $50.00
+                    $100.00
                   </Text>
                   <Text>Principal</Text>
                 </View>
@@ -245,12 +224,13 @@ const IncomesScreen = () => {
               <View>
                 <Image
                   contentFit="cover"
-                  source={require("../assets/heart-1.png")}
+                  source={require("../assets/salario-1.png")}
                 />
               </View>
               <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salud</Text>
-                <Text>Compra de medicina</Text>
+                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salario</Text>
+                <Text>Salario Extra
+                </Text>
               </View>
               <View
                 style={{
@@ -261,7 +241,7 @@ const IncomesScreen = () => {
               >
                 <View>
                   <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $50.00
+                    $100.00
                   </Text>
                   <Text>Principal</Text>
                 </View>
@@ -271,12 +251,13 @@ const IncomesScreen = () => {
               <View>
                 <Image
                   contentFit="cover"
-                  source={require("../assets/heart-1.png")}
+                  source={require("../assets/salario-1.png")}
                 />
               </View>
               <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salud</Text>
-                <Text>Compra de medicina</Text>
+                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salario</Text>
+                <Text>Salario Extra
+                </Text>
               </View>
               <View
                 style={{
@@ -287,7 +268,7 @@ const IncomesScreen = () => {
               >
                 <View>
                   <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $50.00
+                    $100.00
                   </Text>
                   <Text>Principal</Text>
                 </View>
@@ -297,12 +278,13 @@ const IncomesScreen = () => {
               <View>
                 <Image
                   contentFit="cover"
-                  source={require("../assets/heart-1.png")}
+                  source={require("../assets/salario-1.png")}
                 />
               </View>
               <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salud</Text>
-                <Text>Compra de medicina</Text>
+                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salario</Text>
+                <Text>Salario Extra
+                </Text>
               </View>
               <View
                 style={{
@@ -313,7 +295,7 @@ const IncomesScreen = () => {
               >
                 <View>
                   <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $50.00
+                    $100.00
                   </Text>
                   <Text>Principal</Text>
                 </View>
@@ -323,12 +305,13 @@ const IncomesScreen = () => {
               <View>
                 <Image
                   contentFit="cover"
-                  source={require("../assets/heart-1.png")}
+                  source={require("../assets/salario-1.png")}
                 />
               </View>
               <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salud</Text>
-                <Text>Compra de medicina</Text>
+                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salario</Text>
+                <Text>Salario Extra
+                </Text>
               </View>
               <View
                 style={{
@@ -339,7 +322,34 @@ const IncomesScreen = () => {
               >
                 <View>
                   <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $50.00
+                    $100.00
+                  </Text>
+                  <Text>Principal</Text>
+                </View>
+              </View>
+            </View>
+            <View style={styles.lista}>
+              <View>
+                <Image
+                  contentFit="cover"
+                  source={require("../assets/salario-1.png")}
+                />
+              </View>
+              <View style={{ paddingLeft: 10 }}>
+                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salario</Text>
+                <Text>Salario Extra
+                </Text>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  width: "100%",
+                  flexDirection: "row-reverse",
+                }}
+              >
+                <View>
+                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
+                    $100.00
                   </Text>
                   <Text>Principal</Text>
                 </View>
@@ -463,9 +473,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   btnAdd: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     backgroundColor: "#FFC436",
     position: "absolute",
     right: 0,
