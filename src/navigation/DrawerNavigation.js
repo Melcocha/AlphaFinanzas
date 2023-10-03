@@ -8,6 +8,7 @@ import IncomesScreen from '../../screens/IncomesScreen';
 import StackScreen from '../../screens/StackScreen';
 import ProfileScreen from '../../screens/ProfileScreen';
 import ExpensesScreen from '../../screens/ExpensesScreen';
+import AADIRGASTOS from '../../screens/AADIRGASTOS';
 
 const HomeStackNavigator = createNativeStackNavigator();
 
@@ -22,6 +23,11 @@ function Stack() {
         <HomeStackNavigator.Screen
       name="Gastos"
       component={ExpensesScreen}
+      options={{headerShown:false, animation:"none"}}
+      />
+      <HomeStackNavigator.Screen
+      name="Add"
+      component={AADIRGASTOS}
       options={{headerShown:false, animation:"none"}}
       />
     </HomeStackNavigator.Navigator>

@@ -15,81 +15,85 @@ const ExpensesScreen = () => {
 
   return (
     <>
-      <SafeAreaView style={styles.fondo}>
-        <SafeAreaView style={styles.topMenu}>
-          <TouchableOpacity onPress={() => navigation.navigate("Ingresos")}>
-            <Text style={styles.text}>INGRESOS</Text>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Text
-              style={{
-                fontSize: 23,
-                fontWeight: "bold",
-                color: "#FFC436",
-                textDecorationLine: "underline",
-              }}
-            >
-              GASTOS
-            </Text>
-          </TouchableOpacity>
-        </SafeAreaView>
+      <View style={styles.ingresos}>
+        <View style={styles.menuSup}>
+          <View style={styles.BotonesP}>
+            <TouchableOpacity onPress={() => navigation.navigate("Ingresos")}>
+              <Text style={styles.texto}>
+                INGRESOS
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity >
+              <Text style={{
+                  fontSize: 22,
+                  fontWeight: "bold",
+                  color: "#FFC436",
+                  textDecorationLine: "underline",
+                }}>GASTOS</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
 
-        <SafeAreaView style={styles.Container}>
-          <TouchableOpacity style={styles.button2}>
-            <Text style={{ fontSize: 40, fontWeight: "bold" }}>+</Text>
+        <View style={styles.contenedorInf}>
+          <TouchableOpacity style={styles.btnAdd}>
+            <Text>+</Text>
           </TouchableOpacity>
-        </SafeAreaView>
-      </SafeAreaView>
+        </View>
+      </View>
     </>
   );
 };
-
 const styles = StyleSheet.create({
-
-  fondo: {
-    flex:1,
-    backgroundColor:"#BDBDD7"
+  ingresos: {
+    flex: 1,
+    alignItems: "stretch",
   },
-  topMenu: {
+  menuSup: {
+    flex: 1,
     flexDirection: "row",
-    justifyContent: "space-between",
-    padding: 45,
-    backgroundColor: "#FFFFFF",
-    height: 150,
+    backgroundColor: "#fff",
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
-    borderBottomWidth: 1,
-    borderColor: "#D7D7D7D7",
-    shadowOpacity: 0.5,
-    elevation: 3,
-  },
-
-  Container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    margin: 10,
-    borderRadius: 10,
-    marginTop: -50,
-    borderWidth: 1,
-    borderColor: "#D7D7D7D7",
-    shadowOpacity: 0.5,
-    elevation: 3,
     alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 2,
+    borderColor: "#a8a8a8",
+    shadowOpacity: 1,
   },
-
-  text: {
-    fontSize: 23,
+  BotonesP: {
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-between",
+    paddingRight: 45,
+    paddingLeft: 45,
+  },
+  texto: {
+    fontSize: 22,
     fontWeight: "bold",
   },
-  button2: {
-    marginTop: 565,
-    marginLeft: 295,
+  contenedorInf: {
+    flex: 4,
+    flexDirection: "row",
+    backgroundColor: "#fff",
+    borderRadius: 15,
+    marginTop: -50,
+    margin: 10,
+    borderWidth: 2,
+    borderColor: "#a8a8a8",
+    shadowOpacity: 1,
+  },
+  btnAdd: {
     width: 70,
     height: 70,
     borderRadius: 35,
     backgroundColor: "#FFC436",
-    justifyContent: "center",
+    position: "absolute",
+    right: 0,
+    bottom: 0,
+    marginRight: 10,
+    marginBottom: 10,
     alignItems: "center",
+    justifyContent: "center",
   },
 });
 
