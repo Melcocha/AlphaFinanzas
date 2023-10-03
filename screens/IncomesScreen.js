@@ -346,7 +346,7 @@ const IncomesScreen = () => {
               </View>
             </View>
           </ScrollView>
-          <TouchableOpacity style={styles.btnAdd}>
+          <TouchableOpacity style={styles.btnAdd} onPress={() => navigation.navigate("AñadirTransaccion")}>
             <Text style={{ fontSize: 25 }}>+</Text>
           </TouchableOpacity>
         </View>
