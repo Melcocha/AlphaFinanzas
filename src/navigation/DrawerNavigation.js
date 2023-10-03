@@ -1,14 +1,18 @@
+
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationContainer } from '@react-navigation/native';
-
 import HomeScreen from '../../screens/HomeScreen';
 import IncomesScreen from '../../screens/IncomesScreen';
 import StackScreen from '../../screens/StackScreen';
-import ProfileScreen from '../../screens/ProfileScreen';
 import ExpensesScreen from '../../screens/ExpensesScreen';
-import AADIRGASTOS from '../../screens/AADIRGASTOS';
+import CategoriaScreen from '../../screens/CategoriaScreen';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import AjusteScreen from '../../screens/AjusteScreen';
+import AcercaScreen from '../../screens/Acerca';
+import AñadirTransaccionScreen from '../../screens/AñadirTransaccionScreen';
+import { NavigationContainer } from "@react-navigation/native";
+
 
 const HomeStackNavigator = createNativeStackNavigator();
 
@@ -20,18 +24,20 @@ function Stack() {
       component={IncomesScreen}
       options={{headerShown:false, animation:"none"}}
       />
-        <HomeStackNavigator.Screen
+      <HomeStackNavigator.Screen
       name="Gastos"
       component={ExpensesScreen}
       options={{headerShown:false, animation:"none"}}
       />
       <HomeStackNavigator.Screen
-      name="Add"
-      component={AADIRGASTOS}
-      options={{headerShown:false, animation:"none"}}
+        name="AñadirTransaccion" // Cambia el nombre a "AñadirTransaccion"
+        component={AñadirTransaccionScreen}
+        options={{ headerShown: false, animation: "none" }}
       />
+
     </HomeStackNavigator.Navigator>
   )
+  
 }
 
 const Drawer = createDrawerNavigator();
@@ -46,7 +52,7 @@ export function DrawerNavigation() {
         },
         headerStyle: {
           backgroundColor: "#27374D",
-          height: 60,
+          height: 100,
         },
         headerTintColor: "#fff",
         headerTitleStyle: {
@@ -60,9 +66,14 @@ export function DrawerNavigation() {
         },
       }}
     >
-      <Drawer.Screen name="Inicio" component={HomeScreen} />
-      <Drawer.Screen name="Movimientos" component={Stack} />
-      <Drawer.Screen name="Stack" component={StackScreen} />
+      <Drawer.Screen name="Inicio" component={HomeScreen} options={{drawerIcon: ({ color, size }) => (<Icon name="home" color="white" size={size} /> ),}}/>
+      <Drawer.Screen name="Movimientos" component={Stack} options={{drawerIcon: ({ color, size }) => (<Icon name="exchange" color="white" size={size} /> ),}}/> 
+      <Drawer.Screen name="Stack" component={StackScreen} options={{drawerIcon: ({ color, size }) => (<Icon name="stack-exchange" color="white" size={size} /> ),}}/>
+      <Drawer.Screen name="Categorias" component={CategoriaScreen} options={{drawerIcon: ({ color, size }) => (<Icon name="th-large" color="white" size={size} /> ),}}/>
+      <Drawer.Screen name="Ajustes" component={AjusteScreen} options={{drawerIcon: ({ color, size }) => (<Icon name="briefcase" color="white" size={size} /> ),}}/>
+      <Drawer.Screen name="Acerca De" component={AcercaScreen} options={{drawerIcon: ({ color, size }) => (<Icon name="comment-o" color="white" size={size} /> ),}}/>
+      <Drawer.Screen name="Cerrar Sesión" component={CategoriaScreen} options={{drawerIcon: ({ color, size }) => (<Icon name="sign-in" color="white" size={size} /> ),}}/>
+
     </Drawer.Navigator>
   );
 }

@@ -20,6 +20,10 @@ import { Image } from "react-native";
 const IncomesScreen = () => {
   const navigation = useNavigation();
 
+  const navigateToAddTransaction = () => {
+    navigation.navigate("AñadirTransaccion");
+  };
+
   return (
     <>
       <View style={styles.ingresos}>
@@ -75,10 +79,10 @@ const IncomesScreen = () => {
             <Text style={styles.selectorfechatxt}>Total:100</Text>
           </View>
           <ScrollView style={styles.scrollcont}>
-          <View>
-              <Text style={{paddingLeft:10}}>02 de octubre de 2023</Text>
-          </View>
-          <View style={styles.lista}>
+            <View>
+              <Text style={{ paddingLeft: 10 }}>02 de octubre de 2023</Text>
+            </View>
+            <View style={styles.lista}>
               <View>
                 <Image
                   contentFit="cover"
@@ -91,15 +95,17 @@ const IncomesScreen = () => {
               </View>
               <View
                 style={{
-                  flex:1,
+                  flex: 1,
                   width: "100%",
-                  flexDirection:'row-reverse',
+                  flexDirection: "row-reverse",
                 }}
               >
                 <View>
-                <Text style={{ fontSize: 16, fontWeight: "700",}}>$50.00</Text>
-                <Text>Principal</Text>
-                </View>    
+                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
+                    $50.00
+                  </Text>
+                  <Text>Principal</Text>
+                </View>
               </View>
             </View>
             <View style={styles.lista}>
@@ -115,15 +121,17 @@ const IncomesScreen = () => {
               </View>
               <View
                 style={{
-                  flex:1,
+                  flex: 1,
                   width: "100%",
-                  flexDirection:'row-reverse',
+                  flexDirection: "row-reverse",
                 }}
               >
                 <View>
-                <Text style={{ fontSize: 16, fontWeight: "700",}}>$50.00</Text>
-                <Text>Principal</Text>
-                </View>    
+                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
+                    $50.00
+                  </Text>
+                  <Text>Principal</Text>
+                </View>
               </View>
             </View>
             <View style={styles.lista}>
@@ -139,20 +147,22 @@ const IncomesScreen = () => {
               </View>
               <View
                 style={{
-                  flex:1,
+                  flex: 1,
                   width: "100%",
-                  flexDirection:'row-reverse',
+                  flexDirection: "row-reverse",
                 }}
               >
                 <View>
-                <Text style={{ fontSize: 16, fontWeight: "700",}}>$50.00</Text>
-                <Text>Principal</Text>
-                </View>    
+                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
+                    $50.00
+                  </Text>
+                  <Text>Principal</Text>
+                </View>
               </View>
             </View>
             <View>
-              <Text style={{paddingLeft:10}}>05 de octubre de 2023</Text>
-          </View>
+              <Text style={{ paddingLeft: 10 }}>05 de octubre de 2023</Text>
+            </View>
             <View style={styles.lista}>
               <View>
                 <Image
@@ -166,15 +176,17 @@ const IncomesScreen = () => {
               </View>
               <View
                 style={{
-                  flex:1,
+                  flex: 1,
                   width: "100%",
-                  flexDirection:'row-reverse',
+                  flexDirection: "row-reverse",
                 }}
               >
                 <View>
-                <Text style={{ fontSize: 16, fontWeight: "700",}}>$50.00</Text>
-                <Text>Principal</Text>
-                </View>    
+                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
+                    $50.00
+                  </Text>
+                  <Text>Principal</Text>
+                </View>
               </View>
             </View>
             <View style={styles.lista}>
@@ -190,15 +202,17 @@ const IncomesScreen = () => {
               </View>
               <View
                 style={{
-                  flex:1,
+                  flex: 1,
                   width: "100%",
-                  flexDirection:'row-reverse',
+                  flexDirection: "row-reverse",
                 }}
               >
                 <View>
-                <Text style={{ fontSize: 16, fontWeight: "700",}}>$50.00</Text>
-                <Text>Principal</Text>
-                </View>    
+                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
+                    $50.00
+                  </Text>
+                  <Text>Principal</Text>
+                </View>
               </View>
             </View>
             <View style={styles.lista}>
@@ -214,15 +228,17 @@ const IncomesScreen = () => {
               </View>
               <View
                 style={{
-                  flex:1,
+                  flex: 1,
                   width: "100%",
-                  flexDirection:'row-reverse',
+                  flexDirection: "row-reverse",
                 }}
               >
                 <View>
-                <Text style={{ fontSize: 16, fontWeight: "700",}}>$50.00</Text>
-                <Text>Principal</Text>
-                </View>    
+                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
+                    $50.00
+                  </Text>
+                  <Text>Principal</Text>
+                </View>
               </View>
             </View>
             <View style={styles.lista}>
@@ -238,15 +254,17 @@ const IncomesScreen = () => {
               </View>
               <View
                 style={{
-                  flex:1,
+                  flex: 1,
                   width: "100%",
-                  flexDirection:'row-reverse',
+                  flexDirection: "row-reverse",
                 }}
               >
                 <View>
-                <Text style={{ fontSize: 16, fontWeight: "700",}}>$50.00</Text>
-                <Text>Principal</Text>
-                </View>    
+                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
+                    $50.00
+                  </Text>
+                  <Text>Principal</Text>
+                </View>
               </View>
             </View>
             <View style={styles.lista}>
@@ -262,15 +280,17 @@ const IncomesScreen = () => {
               </View>
               <View
                 style={{
-                  flex:1,
+                  flex: 1,
                   width: "100%",
-                  flexDirection:'row-reverse',
+                  flexDirection: "row-reverse",
                 }}
               >
                 <View>
-                <Text style={{ fontSize: 16, fontWeight: "700",}}>$50.00</Text>
-                <Text>Principal</Text>
-                </View>    
+                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
+                    $50.00
+                  </Text>
+                  <Text>Principal</Text>
+                </View>
               </View>
             </View>
             <View style={styles.lista}>
@@ -286,15 +306,17 @@ const IncomesScreen = () => {
               </View>
               <View
                 style={{
-                  flex:1,
+                  flex: 1,
                   width: "100%",
-                  flexDirection:'row-reverse',
+                  flexDirection: "row-reverse",
                 }}
               >
                 <View>
-                <Text style={{ fontSize: 16, fontWeight: "700",}}>$50.00</Text>
-                <Text>Principal</Text>
-                </View>    
+                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
+                    $50.00
+                  </Text>
+                  <Text>Principal</Text>
+                </View>
               </View>
             </View>
             <View style={styles.lista}>
@@ -310,15 +332,17 @@ const IncomesScreen = () => {
               </View>
               <View
                 style={{
-                  flex:1,
+                  flex: 1,
                   width: "100%",
-                  flexDirection:'row-reverse',
+                  flexDirection: "row-reverse",
                 }}
               >
                 <View>
-                <Text style={{ fontSize: 16, fontWeight: "700",}}>$50.00</Text>
-                <Text>Principal</Text>
-                </View>    
+                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
+                    $50.00
+                  </Text>
+                  <Text>Principal</Text>
+                </View>
               </View>
             </View>
           </ScrollView>
@@ -348,30 +372,30 @@ const styles = StyleSheet.create({
   opciones: {
     flexDirection: "row",
     width: "100%",
-    alignItems:'center',
+    alignItems: "center",
     justifyContent: "space-between",
     paddingRight: 35,
     paddingLeft: 35,
-    paddingTop:5
+    paddingTop: 5,
   },
   btnCuenta: {
     alignItems: "baseline",
     flexDirection: "row",
   },
   btnBuscar: {
-  flexDirection: "row",
+    flexDirection: "row",
   },
   BotonesP: {
     borderBottomLeftRadius: 25,
     borderBottomRightRadius: 25,
     flexDirection: "row",
     width: "100%",
-    alignItems:'center',  
+    alignItems: "center",
     justifyContent: "space-between",
     paddingRight: 45,
     paddingLeft: 45,
-    marginBottom:10,
-    paddingTop:10 //arrecla el espacio para el telefono grande kevin
+    marginBottom: 10,
+    paddingTop: 10, //arrecla el espacio para el telefono grande kevin
   },
   lista: {
     flex: 1,
