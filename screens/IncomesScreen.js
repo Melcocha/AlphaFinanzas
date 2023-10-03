@@ -11,9 +11,14 @@ import {
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
+import AñadirTransaccionScreen from '../screens/AñadirTransaccionScreen';
 
 const IncomesScreen = () => {
   const navigation = useNavigation();
+
+  const navigateToAddTransaction = () => {
+    navigation.navigate("AñadirTransaccion");
+  };
 
   return (
     <>
@@ -37,9 +42,9 @@ const IncomesScreen = () => {
         </SafeAreaView>
 
         <SafeAreaView style={styles.Container}>
-          <TouchableOpacity style={styles.button2}>
+          <TouchableOpacity style={styles.button2} onPress={navigateToAddTransaction}>
               <Text style={{ fontSize: 40, fontWeight: "bold" }}>+</Text>
-            </TouchableOpacity>
+          </TouchableOpacity>
         </SafeAreaView>
       </SafeAreaView>
     </>
