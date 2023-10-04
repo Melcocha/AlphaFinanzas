@@ -17,7 +17,7 @@ import Fontisto from "react-native-vector-icons/Fontisto";
 import { Image } from "react-native";
 
 
-const ExpensesScreen = () => {
+const MoviGastosScreen = () => {
   const navigation = useNavigation();
 
   const navigateToAddTransaction = () => {
@@ -529,4 +529,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ExpensesScreen;
+export default MoviGastosScreen;
