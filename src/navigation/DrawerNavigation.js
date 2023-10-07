@@ -13,6 +13,9 @@ import MoviIngreScreen from '../../screens/MoviIngreScreen';
 import CategoriaGastosScreen from '../../screens/CategoriaGastosScreen';
 import CategoriaIngresosScreen from '../../screens/CategoriaIngresosScreen';
 import { NavigationContainer } from "@react-navigation/native";
+import LoginScreen from '../../screens/Login';
+import RegisterScreen from '../../screens/Register';
+import HomeScreenUser from '../../screens/HomeUser';
 
 const HomeStackNavigator = createNativeStackNavigator();
 
@@ -81,6 +84,7 @@ export function DrawerNavigation() {
         },
       }}
     >
+      <Drawer.Screen name="HomeUser" component={HomeScreenUser} />
       <Drawer.Screen name="Inicio" component={HomeScreen} options={{drawerIcon: ({ color, size }) => (<Icon name="home" color="white" size={size} /> ),}}/>
       <Drawer.Screen name="Movimientos" component={StackMovimientos} options={{drawerIcon: ({ color, size }) => (<Icon name="exchange" color="white" size={size} /> ),}}/> 
       <Drawer.Screen name="Categorias" component={StackcCategorias} options={{drawerIcon: ({ color, size }) => (<Icon name="th-large" color="white" size={size} /> ),}}/>
@@ -88,6 +92,8 @@ export function DrawerNavigation() {
       <Drawer.Screen name="Acerca De" component={AcercaScreen} options={{drawerIcon: ({ color, size }) => (<Icon name="comment-o" color="white" size={size} /> ),}}/>
       <Drawer.Screen name="Cerrar Sesión" component={HomeScreen} options={{drawerIcon: ({ color, size }) => (<Icon name="sign-in" color="white" size={size} /> ),}}/>
       <Drawer.Screen name="Stack" component={StackScreen} options={{drawerIcon: ({ color, size }) => (<Icon name="stack-exchange" color="white" size={size} /> ),}}/>
+      <Drawer.Screen name="Registro" component={RegisterScreen} />
+      <Drawer.Screen name="Login" component={LoginScreen} />
     </Drawer.Navigator>
   );
 }
