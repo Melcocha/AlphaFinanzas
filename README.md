@@ -1,4 +1,4 @@
-<h1>ALPHA FINANZAS</h1>
+<h1>ALPHA FINANZA</h1>
 
 <p>
 Aplicación multiplataforma altamente funcional y responsiva utilizando React Native, compatible con sistemas operativos Android e iOS, así como también con navegadores web. La aplicación permitirá a los usuarios llevar un control efectivo de sus ingresos y gastos, brindando una interfaz intuitiva y representación gráfica del balance general y el historial financiero.
