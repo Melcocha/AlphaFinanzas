@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { loginUser } from '../src/api/api.js';
+import ButtonGoogle from './ButtonLogin.js';
 const LoginScreen = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
@@ -20,8 +21,6 @@ const LoginScreen = () => {
     }else{
       alert(login.data);
     }
-
-
 
   };
 
@@ -45,6 +44,7 @@ const LoginScreen = () => {
       <TouchableOpacity onPress={() => navigation.navigate('Registro')}>
         <Text style={styles.registerText}>¿No estás registrado? Registrarse</Text>
       </TouchableOpacity>
+      <ButtonGoogle/>
     </View>
   );
 };

@@ -84,7 +84,7 @@ export function DrawerNavigation() {
         },
       }}
     >
-      <Drawer.Screen name="HomeUser" component={HomeScreenUser} />
+      <Drawer.Screen name="HomeUser" component={HomeScreenUser} options={{ drawerLabel: () => null }} />
       <Drawer.Screen name="Inicio" component={HomeScreen} options={{drawerIcon: ({ color, size }) => (<Icon name="home" color="white" size={size} /> ),}}/>
       <Drawer.Screen name="Movimientos" component={StackMovimientos} options={{drawerIcon: ({ color, size }) => (<Icon name="exchange" color="white" size={size} /> ),}}/> 
       <Drawer.Screen name="Categorias" component={StackcCategorias} options={{drawerIcon: ({ color, size }) => (<Icon name="th-large" color="white" size={size} /> ),}}/>
@@ -92,8 +92,8 @@ export function DrawerNavigation() {
       <Drawer.Screen name="Acerca De" component={AcercaScreen} options={{drawerIcon: ({ color, size }) => (<Icon name="comment-o" color="white" size={size} /> ),}}/>
       <Drawer.Screen name="Cerrar Sesión" component={HomeScreen} options={{drawerIcon: ({ color, size }) => (<Icon name="sign-in" color="white" size={size} /> ),}}/>
       <Drawer.Screen name="Stack" component={StackScreen} options={{drawerIcon: ({ color, size }) => (<Icon name="stack-exchange" color="white" size={size} /> ),}}/>
-      <Drawer.Screen name="Registro" component={RegisterScreen} />
-      <Drawer.Screen name="Login" component={LoginScreen} />
+      <Drawer.Screen name="Registro" component={RegisterScreen} options={{ drawerLabel: () => null }} />
+      <Drawer.Screen name="Login" component={LoginScreen} options={{ drawerLabel: () => null }} />
     </Drawer.Navigator>
   );
 }
