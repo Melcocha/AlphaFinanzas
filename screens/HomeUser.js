@@ -19,19 +19,19 @@ const HomeScreenUser = () => {
     <View style={styles.container}>
       <View style={styles.topSection}>
         <Image
-          source={require('../src/img/logo.jpg')} 
+          source={require('../assets/icon.png')} 
           style={styles.logo}
         />
       </View>
       <View style={styles.bottomSection}>
         <TouchableOpacity
-          style={[styles.button, { backgroundColor: '#FFA500', borderRadius: 10 }]}
+          style={[styles.button, { backgroundColor: '#FFC436', borderRadius: 10 }]}
           onPress={handleLogin}
         >
           <Text style={[styles.buttonText, { color: 'black' }]}>Iniciar Sesión</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.button, { backgroundColor: '#FFA500', borderRadius: 10 }]}
+          style={[styles.button, { backgroundColor: '#FFC436', borderRadius: 10 }]}
           onPress={handleRegister}
         >
           <Text style={[styles.buttonText, { color: 'black' }]}>Registrarse</Text>
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   button: {
-    width: 200,
+    width: 300,
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',

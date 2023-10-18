@@ -75,7 +75,7 @@ const RegisterScreen = () => {
       />
       <Button title="Crear Cuenta" onPress={handleRegister} color="#FFD700" />
       <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.loginText}>¿Ya te encuentras logeado? Logeate</Text>
+        <Text style={styles.loginText}>¿No tienes una cuenta? Registrate aquí</Text>
       </TouchableOpacity>
     </View>
   );
