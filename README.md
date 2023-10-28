@@ -12,7 +12,7 @@ Esta sección se destina a los usuarios finales de la aplicación:
 
 <ul>
   <li>1. Primeros Pasos: Descarga la aplicación desde la tienda oficial de tu dispositivo y regístrate usando tu correo electrónico o cuenta de Google.</li>
-  <li>2. Funcionalidades: Visualiza estadísticas de gastos, programa alertas de pagos, y exporta informes financieros.</li>
+  <li>2. Funcionalidades: Visualiza estadísticas de gastos e ingresos, programa alertas de pagos, y exporta informes financieros.</li>
   <li>3. Enlace a la documentación detallada para el usuario: [Proporcionar enlace]</li>
 </ul>
 
@@ -36,15 +36,17 @@ Los siguientes son los desarrolladores y colaboradores principales del proyecto 
 
 <ul>
   <li>Sistema operativo: Windows 10, Linux (Ubuntu 20.04), macOS Catalina</li>
-  <li>Librerías requeridas: React Native 0.65.0</li>
-  <li>SDKs y Compiladores: Android SDK 29.0.2, Xcode 12.4</li>
-  <li>Gestión de paquetes y dependencias: npm v7.0, yarn v1.22</li>
+  <li>Editor de codigo: Visual Studio Code v1.83.1 o superior (Stable Build).</li>
+  <li>Android Studio Giraffe v2022.3.1 o superior.</li>
+  <li>Librerías requeridas: React Native v0.72.0</li>
+  <li>SDKs y Compiladores: Android SDK v33.0.0, Xcode v12.4</li>
+  <li>Gestión de paquetes y dependencias: npm v9.6.7 o yarn v1.22, NodeJS v18.17.1(LTS), JDK17</li>
 </ul>
 
 <h2>Dependencias del Proyecto 🛠️</h2>
 
 <ul>
-  <li>axios: Librería para hacer peticiones HTTP de manera sencilla.</li>
+  <li>Firebase: Plataforma en la nube para el desarrollo de aplicaciones web y móvil.</li>
   <li>react-navigation: Proporciona soluciones de navegación para aplicaciones React Native.</li>
   <li>react-redux: Para manejo de estados globales en la app.</li>
   <li>Nota: Asegurarse de tener todas las dependencias actualizadas para evitar conflictos.</li>
@@ -53,9 +55,12 @@ Los siguientes son los desarrolladores y colaboradores principales del proyecto 
 <h2>Instalación y Configuración 🛠️</h2>
 
 <ul>
-  <li>Paso 1: Clonar el repositorio del proyecto en tu máquina local.</li>
-  <li>Paso 2: Navegar hasta el directorio del proyecto y ejecutar "npm install" para instalar las dependencias.</li>
-  <li>Paso 3: Ejecutar "npm start" para iniciar la aplicación en modo desarrollo.</li>
+  <li>Paso 1: Verificar que se cumplan los requisitos del sistema.</li>
+  <li>Paso 2: Verificar que las dependencias del proyecto se encuentren instaladas.</li>
+  <li>Paso 3: Configurar las variables de entorno del sistema: ANDROID_HOME, JAVA_HOME</li>
+  <li>Paso 4: Clonar el repositorio del proyecto en tu máquina local.</li>
+  <li>Paso 5: Navegar hasta el directorio del proyecto "AlphaFinanzas" y ejecutar "npm install" para instalar las dependencias.</li>
+  <li>Paso 6: Ejecutar "npx expo run:android" para iniciar la aplicación en modo desarrollo.</li>
 </ul>
 
 <h2>LINKS 🛠️</h2>
