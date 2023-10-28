@@ -1,14 +1,15 @@
-import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import 'react-native-gesture-handler';
-import { DrawerNavigation } from './src/navigation/DrawerNavigation';
+import LoginNavigation from './src/navigation/LoginNavigation';
+import { NavigationContainer } from '@react-navigation/native';
 
-export default function App() {
+const App = () => {
   return (
     <NavigationContainer>
-      <DrawerNavigation/>
+      <LoginNavigation />
     </NavigationContainer>
   );
-}
+};
+export default App;
 
 

@@ -22,6 +22,11 @@ const HomeScreenUser = () => {
           source={require('../assets/icon.png')} 
           style={styles.logo}
         />
+        <Text
+              style={{ fontSize: 26, fontWeight: "bold", color: "#FFC436", marginTop:10}}
+            >
+              AlphaFinanzas
+            </Text>
       </View>
       <View style={styles.bottomSection}>
         <TouchableOpacity
