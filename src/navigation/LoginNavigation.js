@@ -100,7 +100,7 @@ const Drawer = createDrawerNavigator();
             },
             headerStyle: {
               backgroundColor: "#27374D",
-              height: 100,
+              height: 60,
             },
             headerTintColor: "#fff",
             headerTitleStyle: {
