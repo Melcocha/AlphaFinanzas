@@ -1,32 +1,32 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, Button, StyleSheet, Dimensions } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Button, StyleSheet, Dimensions, Alert } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-// Importa DateTimePickerModal
+import appFirebase from '../src/utils/firebase-config'
+import { getFirestore, collection, addDoc, getDoc, doc, deleteDoc, getDocs } from 'firebase/firestore'
+import firestore from '@react-native-firebase/firestore';
+
 const windowWidth = Dimensions.get("window").width;
+
+
 const AñadirTransaccionScreen = () => {
-const [monto, setMonto] = useState("");
-const [comentario, setComentario] = useState("");
-const [iconosSeleccionados, setIconosSeleccionados] = useState({
-    icono1: false,
-    icono2: false,
-    icono3: false,
-    icono4: false,
-  });
-  const styles = {
-    contenedorPrincipal: {
+  const [monto, setMonto] = useState("");
+  const [iconoSeleccionado, setIconoSeleccionado] = useState(null);
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
       paddingHorizontal: 20,
       paddingTop: 20,
+      backgroundColor: "#fff", // Cambia el color de fondo si lo deseas
     },
     titulo: {
-      fontSize: 24,
+      fontSize: 20,
       fontWeight: "bold",
       marginBottom: 10,
+      marginTop: 20,
     },
     inputDolar: {
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "center",
-      width: "40%",
+      width: "80%",
       height: 50,
       borderWidth: 1,
       borderColor: "#ccc",
@@ -42,17 +42,20 @@ const [iconosSeleccionados, setIconosSeleccionados] = useState({
       marginVertical: 10,
     },
     iconoContainer: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+    },
+    iconoWrapper: {
       width: "50%",
       alignItems: "center",
       justifyContent: "center",
-      marginBottom: 20,
     },
     icono: {
-      alignItems: "center",
-      justifyContent: "center",
       borderWidth: 1,
       borderColor: "transparent",
       backgroundColor: "transparent",
+      borderRadius: 50, // Para hacer que los iconos sean circulares
+      padding: 10,
     },
     iconoTexto: {
       fontSize: 16,
@@ -61,150 +64,135 @@ const [iconosSeleccionados, setIconosSeleccionados] = useState({
     inputComentario: {
       borderWidth: 1,
       borderColor: "#ccc",
-      borderRadius: 5,
+      borderRadius: 20,
       padding: 10,
-      marginBottom: 20, // Espacio inferior
-      width: 420, // Ajusta el ancho al 100% del contenedor
-    },
-    container: {
-      paddingHorizontal: 20,
-      paddingTop: 20,
+      marginBottom: 20,
     },
     botonContainer: {
-      flex: 1, // Cambia a flex: 1 para centrar verticalmente
+      flex: 1,
       justifyContent: "center",
       alignItems: "center",
-      marginBottom: -100, // Espacio inferior
+      marginBottom: 20, // Espacio inferior
     },
     botonAñadir: {
-      width: "400px", // Cambia a porcentaje para ajustar el ancho
+      width: "100%", // Ajusta el ancho al 80% del contenedor
     },
+    inputDolarContainer: {
+      borderWidth: 1,
+      borderColor: "#ccc",
+      borderRadius: 20,
+      paddingHorizontal: 15,
+      fontSize: 18,
+      marginTop: -15,
+      alignSelf: "center",
+      width: "110%",
+      height: "15%"
+    },
+    categoriasContainer: {
+      borderWidth: 1,
+      borderColor: "#ccc",
+      borderRadius: 20,
+      padding: 10,
+      marginTop: 20,
+      marginBottom: 20,
+    },
+
+  });
+  
+  const handleIconPress = (iconName) => {
+    // Deseleccionar el icono previamente seleccionado si hay uno
+    if (iconoSeleccionado === iconName) {
+      setIconoSeleccionado(null);
+    } else {
+      // Seleccionar el nuevo icono
+      setIconoSeleccionado(iconName);
+    }
+  };
+  const categorias = {
+    icono1: "Salud",
+    icono2: "Ocio",
+    icono3: "Casa",
+    icono4: "Educación",
+    icono5: "Alimentación",
+    icono6: "Otros",
   };
   
+  const [valor, setValor] = useState(''); // Estado para el valor
+  const [comentario, setComentario] = useState(''); // Estado para el comentario
 
+  const save = () => {
+    if (iconoSeleccionado) {
+      // Verifica si se ha seleccionado un ícono
+      firestore().collection("ingresos").add({
+        valor: valor,
+        comentario: comentario,
+        categoria: categorias[iconoSeleccionado] // Utiliza la categoría seleccionada
+      });
+    } else {
+      // Si no se ha seleccionado un ícono, muestra una alerta
+      Alert.alert("Error", "Debes seleccionar una categoría");
+    }
+  }
+  const handleChangeText = (value, field) => {
+    if (field === 'valor') {
+      setValor(value);
+    } else if (field === 'comentario') {
+      setComentario(value);
+    }
+  }
   return (
-    <View>
+    <View style={styles.container}>
+      <View style={styles.inputDolarContainer}>
         <TextInput
-            placeholder="$"
-            value={monto}
-            onChangeText={(text) => setMonto(text)}
-            keyboardType="numeric"
-            style={{
-                width: "40%", // Ancho del 80% de la pantalla
-                height: 50,
-                borderWidth: 1,
-                borderColor: "#ccc",
-                borderRadius: 10,
-                paddingHorizontal: 15,
-                fontSize: 18, // Tamaño de fuente
-                marginTop: 20, // Espacio superior
-                alignSelf: "center", // Centrar horizontalmente
-            }}
+          placeholder='$'
+          keyboardType="numeric"
+          style={styles.inputDolar}
+          onChangeText={(value)=>handleChangeText(value,'valor')}
+         
         />
-        <Text style={styles.titulo}>Cuenta</Text>
-        <Text>Principal</Text>
+      </View>
 
-        <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+      <View style={styles.categoriasContainer}>
+        <Text style={styles.titulo}>Categorías</Text>
+        <View style={styles.iconoContainer}>
+          {Object.keys(categorias).map((iconName, index) => (
             <TouchableOpacity
-            onPress={() =>
-                setIconosSeleccionados({
-                ...iconosSeleccionados,
-                icono1: !iconosSeleccionados.icono1,
-                })
-            }
-            style={{
-                width: "50%",
-                alignItems: "center",
-                justifyContent: "center",
-                borderWidth: 1,
-                borderColor: iconosSeleccionados.icono1 ? "blue" : "transparent",
-                backgroundColor: iconosSeleccionados.icono1 ? "red" : "transparent",
-            }}
+              key={index}
+              onPress={() => handleIconPress(iconName)}
+              style={[
+                styles.iconoWrapper,
+                {
+                  borderColor: iconoSeleccionado === iconName ? "blue" : "transparent",
+                  backgroundColor: iconoSeleccionado === iconName ? "lightblue" : "transparent",
+                },
+              ]}
             >
-            <Icon name="heart-o" size={40} />
-            <Text style={styles.iconoTexto}>Salud</Text>
+              <View style={styles.icono}>
+                <Icon name="heart-o" size={40} />
+              </View>
+              <Text style={styles.iconoTexto}>
+                {categorias[iconName]}
+              </Text>
             </TouchableOpacity>
-            {/* Repite esto para los otros iconos */}
-            {/* Icono 2 */}
-            <TouchableOpacity
-            onPress={() =>
-                setIconosSeleccionados({
-                ...iconosSeleccionados,
-                icono2: !iconosSeleccionados.icono2,
-                })
-            }
-            style={{
-                width: "50%",
-                alignItems: "center",
-                justifyContent: "center",
-                borderWidth: 1,
-                borderColor: iconosSeleccionados.icono2 ? "blue" : "transparent",
-                backgroundColor: iconosSeleccionados.icono2 ? "lightgreen" : "transparent",
-            }}
-            >
-            <Icon name="dribbble" size={40} />
-            <Text>Ocio</Text>
-            </TouchableOpacity>
-            {/* Icono 3 */}
-            <TouchableOpacity
-            onPress={() =>
-                setIconosSeleccionados({
-                ...iconosSeleccionados,
-                icono3: !iconosSeleccionados.icono3,
-                })
-            }
-            style={{
-                width: "50%",
-                alignItems: "center",
-                justifyContent: "center",
-                borderWidth: 1,
-                borderColor: iconosSeleccionados.icono3 ? "blue" : "transparent",
-                backgroundColor: iconosSeleccionados.icono3 ? "lightblue" : "transparent",
-            }}
-            >
-            <Icon name="home" size={40} />
-            <Text>Casa</Text>
-            </TouchableOpacity>
-            {/* Icono 4 */}
-            <TouchableOpacity
-            onPress={() =>
-                setIconosSeleccionados({
-                ...iconosSeleccionados,
-                icono4: !iconosSeleccionados.icono4,
-                })
-            }
-            style={{
-                width: "50%",
-                alignItems: "center",
-                justifyContent: "center",
-                borderWidth: 1,
-                borderColor: iconosSeleccionados.icono4 ? "blue" : "transparent",
-                backgroundColor: iconosSeleccionados.icono4 ? "yellow" : "transparent",
-            }}
-            >
-            <Icon name="graduation-cap" size={40} />
-            <Text>Eduacion</Text>
-            </TouchableOpacity>
-
-            <View style={styles.comentarioContainer}>
-                <Text style={styles.titulo}>Comentario</Text>
-                <TextInput
-                placeholder="comentario"
-                value={comentario}
-                onChangeText={(text) => setComentario(text)}
-                style={styles.inputComentario}
-                />
-            </View>
-            <View style={styles.botonContainer}>
-                <Button title="Añadir"/>
-            </View>
+          ))}
         </View>
-        
+      </View>
 
-  {/* Aquí puedes agregar los elementos y la lógica para agregar una nueva transacción */}
-</View>
+      <Text style={styles.titulo}>Comentario</Text>
 
+      <TextInput
+        placeholder="Comentario"
+        style={styles.inputComentario}
+        onChangeText={(value)=>handleChangeText(value,'comentario')} 
+      />
+
+      <View style={styles.botonContainer}>
+        <View style={styles.botonContainer}>
+            <Button title="Añadir" style={styles.botonAñadir} onPress={save}/>
+        </View>
+      </View>
+
+    </View>
   );
 };
-
 export default AñadirTransaccionScreen;
