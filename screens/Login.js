@@ -10,7 +10,7 @@ import {
   Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import ButtonGoogle from "./ButtonLogin.js";
+
 //login con google
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
@@ -99,14 +99,25 @@ const LoginScreen = () => {
         secureTextEntry
         style={styles.input}
       />
-      <Button title="Iniciar Sesión" onPress={handleSignIn} color="#FFD700" />
-      <Button title="Login With Google" onPress={onGoogleButtonPress} />
+      <View style={styles.bottomSection}>
+        <TouchableOpacity
+          style={[styles.buttonLogin]}
+          onPress={handleSignIn}
+        >
+          <Text style={{color:'black', fontSize:18, fontWeight:'bold'}}>Iniciar Sesión</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.buttonLoginGoogle]}
+          onPress={onGoogleButtonPress}
+        >
+          <Text style={{color:'#fff', fontSize:18, fontWeight:'bold'}}>Login with Google</Text>
+        </TouchableOpacity>
+      </View>
       <TouchableOpacity onPress={() => navigation.navigate("Registro")}>
         <Text style={styles.registerText}>
           ¿No estás registrado? Registrarse
         </Text>
       </TouchableOpacity>
-      <ButtonGoogle />
     </View>
   );
 };
@@ -128,6 +139,29 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 16,
     textAlign: "center",
+  },
+  bottomSection: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: "#f2f2f2", 
+  },
+  buttonLogin: {
+    width: '100%',
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 10,
+    backgroundColor: '#FFC436', 
+    borderRadius: 10 
+  },
+  buttonLoginGoogle: {
+    width: '100%',
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 10,
+    backgroundColor: '#4285f4', 
+    borderRadius: 10 
   },
   input: {
     marginBottom: 16,

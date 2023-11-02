@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Button, StyleSheet, Dimensions, Alert } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import appFirebase from '../src/utils/firebase-config'
-import { getFirestore, collection, addDoc, getDoc, doc, deleteDoc, getDocs } from 'firebase/firestore'
 import firestore from '@react-native-firebase/firestore';
 
 const windowWidth = Dimensions.get("window").width;
@@ -44,9 +42,10 @@ const AñadirTransaccionScreen = () => {
     iconoContainer: {
       flexDirection: "row",
       flexWrap: "wrap",
+      justifyContent:'center'
     },
     iconoWrapper: {
-      width: "50%",
+      width: "30%",
       alignItems: "center",
       justifyContent: "center",
     },
@@ -64,7 +63,7 @@ const AñadirTransaccionScreen = () => {
     inputComentario: {
       borderWidth: 1,
       borderColor: "#ccc",
-      borderRadius: 20,
+      borderRadius: 10,
       padding: 10,
       marginBottom: 20,
     },
@@ -75,7 +74,11 @@ const AñadirTransaccionScreen = () => {
       marginBottom: 20, // Espacio inferior
     },
     botonAñadir: {
-      width: "100%", // Ajusta el ancho al 80% del contenedor
+      width: 300,
+      height: 50,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginVertical: 10,
     },
     inputDolarContainer: {
       borderWidth: 1,
@@ -112,9 +115,11 @@ const AñadirTransaccionScreen = () => {
     icono1: "Salud",
     icono2: "Ocio",
     icono3: "Casa",
-    icono4: "Educación",
-    icono5: "Alimentación",
-    icono6: "Otros",
+    icono4: "Café",
+    icono5: "Educación",
+    icono6: "Regalos",
+    icono7: "Alimentación",
+    icono8: "Otros",
   };
   
   const [valor, setValor] = useState(''); // Estado para el valor
@@ -123,7 +128,7 @@ const AñadirTransaccionScreen = () => {
   const save = () => {
     if (iconoSeleccionado) {
       // Verifica si se ha seleccionado un ícono
-      firestore().collection("ingresos").add({
+      firestore().collection("Gastos").add({
         valor: valor,
         comentario: comentario,
         categoria: categorias[iconoSeleccionado] // Utiliza la categoría seleccionada
@@ -188,7 +193,12 @@ const AñadirTransaccionScreen = () => {
 
       <View style={styles.botonContainer}>
         <View style={styles.botonContainer}>
-            <Button title="Añadir" style={styles.botonAñadir} onPress={save}/>
+            <TouchableOpacity
+          style={[styles.botonAñadir, { backgroundColor: '#FFC436', borderRadius: 10 }]}
+          onPress={save}
+        >
+          <Text style={[styles.buttonText, { color: 'black' }]}>Añadir</Text>
+        </TouchableOpacity>
         </View>
       </View>
 

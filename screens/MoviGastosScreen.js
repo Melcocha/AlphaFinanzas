@@ -1,28 +1,50 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
-  SafeAreaView,
   StyleSheet,
   View,
   Text,
-  Button,
   TouchableOpacity,
-  ScrollView,
+  FlatList,
+  ActivityIndicator,
 } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 import { useNavigation } from "@react-navigation/native";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Fontisto from "react-native-vector-icons/Fontisto";
 import { Image } from "react-native";
-
+import firestore from "@react-native-firebase/firestore";
 
 const MoviGastosScreen = () => {
   const navigation = useNavigation();
 
-  const navigateToAddTransaction = () => {
-    navigation.navigate("AñadirTransaccion");
-  };
+  const [loading, setLoading] = useState(true); // Set loading to true on component mount
+  const [gastos, setGastos] = useState([]); // Initial empty array of users
+
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection("Gastos")
+      .onSnapshot((querySnapshot) => {
+        const gastos = [];
+
+        querySnapshot.forEach((documentSnapshot) => {
+          gastos.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+          });
+        });
+
+        setGastos(gastos);
+        setLoading(false);
+      });
+
+    // Unsubscribe from events when no longer in use
+    return () => subscriber();
+  }, []);
+
+  if (loading) {
+    return <ActivityIndicator />;
+  }
 
   return (
     <>
@@ -40,19 +62,19 @@ const MoviGastosScreen = () => {
           </View>
           <View style={styles.BotonesP}>
             <TouchableOpacity onPress={() => navigation.navigate("Ingresos")}>
-              <Text style={styles.texto}>
-                INGRESOS
-              </Text>
+              <Text style={styles.texto}>INGRESOS</Text>
             </TouchableOpacity>
-            <TouchableOpacity >
+            <TouchableOpacity>
               <Text
-                  style={{
+                style={{
                   fontSize: 24,
                   fontWeight: "bold",
                   color: "#FFC436",
                   textDecorationLine: "underline",
-                }}>
-                  GASTOS</Text>
+                }}
+              >
+                GASTOS
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -78,327 +100,49 @@ const MoviGastosScreen = () => {
             </TouchableOpacity>
             <Text style={styles.selectorfechatxt}>Total: 50</Text>
           </View>
-          <ScrollView style={styles.scrollcont}>
-            <View>
-              <Text style={{ paddingLeft: 10 }}>02 de octubre de 2023</Text>
-            </View>
-            <View style={styles.lista}>
-              <View>
-                <Image
-                  contentFit="cover"
-                  source={require("../assets/home-1.png")}
-                />
-              </View>
-              <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Casa</Text>
-                <Text>Compra de Smart TV</Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  width: "100%",
-                  flexDirection: "row-reverse",
-                }}
-              >
+          <View>
+            <Text style={{ paddingLeft: 10, paddingTop: 10 }}>
+              02 de octubre de 2023
+            </Text>
+          </View>
+          <FlatList
+            data={gastos}
+            renderItem={({ item }) => (
+              <View style={styles.lista}>
                 <View>
+                  <Image
+                    contentFit="cover"
+                    source={require("../assets/salario-1.png")}
+                  />
+                </View>
+                <View style={{ paddingLeft: 10 }}>
                   <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $600.00
+                    {item.categoria}
                   </Text>
-                  <Text>Principal</Text>
+                  <Text>{item.comentario}</Text>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    width: "100%",
+                    flexDirection: "row-reverse",
+                  }}
+                >
+                  <View>
+                    <Text style={{ fontSize: 16, fontWeight: "700" }}>
+                      ${item.valor}
+                    </Text>
+                    <Text>Principal</Text>
+                  </View>
                 </View>
               </View>
-            </View>
-            <View style={styles.lista}>
-              <View>
-                <Image
-                  contentFit="cover"
-                  source={require("../assets/home-1.png")}
-                />
-              </View>
-              <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Casa</Text>
-                <Text>Compra de Muebles</Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  width: "100%",
-                  flexDirection: "row-reverse",
-                }}
-              >
-                <View>
-                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $900.00
-                  </Text>
-                  <Text>Principal</Text>
-                </View>
-              </View>
-            </View>
-            <View style={styles.lista}>
-              <View>
-                <Image
-                  contentFit="cover"
-                  source={require("../assets/mortarboard-1.png")}
-                />
-              </View>
-              <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Educación</Text>
-                <Text>Gastos de graduación</Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  width: "100%",
-                  flexDirection: "row-reverse",
-                }}
-              >
-                <View>
-                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $80.00
-                  </Text>
-                  <Text>Principal</Text>
-                </View>
-              </View>
-            </View>
-            <View>
-              <Text style={{ paddingLeft: 10 }}>06 de octubre de 2023</Text>
-            </View>
-            <View style={styles.lista}>
-              <View>
-                <Image
-                  contentFit="cover"
-                  source={require("../assets/home-1.png")}
-                />
-              </View>
-              <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Casa</Text>
-                <Text>Compra de muebles</Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  width: "100%",
-                  flexDirection: "row-reverse",
-                }}
-              >
-                <View>
-                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $900.00
-                  </Text>
-                  <Text>Principal</Text>
-                </View>
-              </View>
-            </View>
-            <View style={styles.lista}>
-              <View>
-                <Image
-                  contentFit="cover"
-                  source={require("../assets/home-1.png")}
-                />
-              </View>
-              <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Casa</Text>
-                <Text>Compra de muebles</Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  width: "100%",
-                  flexDirection: "row-reverse",
-                }}
-              >
-                <View>
-                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $900.00
-                  </Text>
-                  <Text>Principal</Text>
-                </View>
-              </View>
-            </View>
-            <View style={styles.lista}>
-              <View>
-                <Image
-                  contentFit="cover"
-                  source={require("../assets/home-1.png")}
-                />
-              </View>
-              <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Casa</Text>
-                <Text>Compra de muebles</Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  width: "100%",
-                  flexDirection: "row-reverse",
-                }}
-              >
-                <View>
-                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $900.00
-                  </Text>
-                  <Text>Principal</Text>
-                </View>
-              </View>
-            </View>
-            <View style={styles.lista}>
-              <View>
-                <Image
-                  contentFit="cover"
-                  source={require("../assets/home-1.png")}
-                />
-              </View>
-              <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Casa</Text>
-                <Text>Compra de muebles</Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  width: "100%",
-                  flexDirection: "row-reverse",
-                }}
-              >
-                <View>
-                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $900.00
-                  </Text>
-                  <Text>Principal</Text>
-                </View>
-              </View>
-            </View>
-            <View style={styles.lista}>
-              <View>
-                <Image
-                  contentFit="cover"
-                  source={require("../assets/home-1.png")}
-                />
-              </View>
-              <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Casa</Text>
-                <Text>Compra de muebles</Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  width: "100%",
-                  flexDirection: "row-reverse",
-                }}
-              >
-                <View>
-                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $900.00
-                  </Text>
-                  <Text>Principal</Text>
-                </View>
-              </View>
-            </View>
-            <View style={styles.lista}>
-              <View>
-                <Image
-                  contentFit="cover"
-                  source={require("../assets/home-1.png")}
-                />
-              </View>
-              <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Casa</Text>
-                <Text>Compra de muebles</Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  width: "100%",
-                  flexDirection: "row-reverse",
-                }}
-              >
-                <View>
-                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $900.00
-                  </Text>
-                  <Text>Principal</Text>
-                </View>
-              </View>
-            </View>
-            <View style={styles.lista}>
-              <View>
-                <Image
-                  contentFit="cover"
-                  source={require("../assets/home-1.png")}
-                />
-              </View>
-              <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Casa</Text>
-                <Text>Compra de muebles</Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  width: "100%",
-                  flexDirection: "row-reverse",
-                }}
-              >
-                <View>
-                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $900.00
-                  </Text>
-                  <Text>Principal</Text>
-                </View>
-              </View>
-            </View>
-            <View style={styles.lista}>
-              <View>
-                <Image
-                  contentFit="cover"
-                  source={require("../assets/home-1.png")}
-                />
-              </View>
-              <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Casa</Text>
-                <Text>Compra de muebles</Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  width: "100%",
-                  flexDirection: "row-reverse",
-                }}
-              >
-                <View>
-                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $900.00
-                  </Text>
-                  <Text>Principal</Text>
-                </View>
-              </View>
-            </View>
-            <View style={styles.lista}>
-              <View>
-                <Image
-                  contentFit="cover"
-                  source={require("../assets/home-1.png")}
-                />
-              </View>
-              <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Casa</Text>
-                <Text>Compra de muebles</Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  width: "100%",
-                  flexDirection: "row-reverse",
-                }}
-              >
-                <View>
-                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $900.00
-                  </Text>
-                  <Text>Principal</Text>
-                </View>
-              </View>
-            </View>
-          </ScrollView>
-          <TouchableOpacity style={styles.btnAdd} onPress={() => navigation.navigate("AñadirTransaccion")}>
+            )}
+          />
+
+          <TouchableOpacity
+            style={styles.btnAdd}
+            onPress={() => navigation.navigate("AñadirTransaccion")}
+          >
             <Text style={{ fontSize: 25 }}>+</Text>
           </TouchableOpacity>
         </View>

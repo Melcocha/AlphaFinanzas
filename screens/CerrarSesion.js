@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Button, Alert } from "react-native";
+import { View, Button, Alert, StyleSheet, TouchableOpacity, Text} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import auth from "@react-native-firebase/auth";
@@ -37,10 +37,49 @@ const CerrarSesionScreen = () => {
 
   return (
     <View>
-      <Button title="Cerrar Sesión" onPress={handleSignOut} color="#FFD700" />
-      <Button title="Cerrar Sesión con Google" onPress={handleSignOutGoogle} />
+      <View style={styles.bottomSection}>
+        <TouchableOpacity
+          style={[styles.buttonLogin]}
+          onPress={handleSignOut}
+        >
+          <Text style={{color:'black', fontSize:18, fontWeight:'bold'}}>Cerrar Sesión</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.buttonLoginGoogle]}
+          onPress={handleSignOutGoogle}
+        >
+          <Text style={{color:'#fff', fontSize:18, fontWeight:'bold'}}>Sign Out with Google</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  bottomSection: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: "#f2f2f2", 
+    padding:10
+  },
+  buttonLogin: {
+    width: '100%',
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 10,
+    backgroundColor: '#FFC436', 
+    borderRadius: 10 
+  },
+  buttonLoginGoogle: {
+    width: '100%',
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 10,
+    backgroundColor: '#4285f4', 
+    borderRadius: 10 
+  },
+});
 
 export default CerrarSesionScreen;

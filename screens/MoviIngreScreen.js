@@ -1,28 +1,50 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
-  SafeAreaView,
   StyleSheet,
   View,
   Text,
-  Button,
   TouchableOpacity,
-  ScrollView,
+  FlatList,
+  ActivityIndicator,
 } from "react-native";
 
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Fontisto from "react-native-vector-icons/Fontisto";
 import { Image } from "react-native";
+import firestore from "@react-native-firebase/firestore";
 
 const MoviIngreScreen = () => {
   const navigation = useNavigation();
 
-  const navigateToAddTransaction = () => {
-    navigation.navigate("AñadirTransaccion");
-  };
+  const [loading, setLoading] = useState(true); // Set loading to true on component mount
+  const [ingresos, setIngresos] = useState([]); // Initial empty array of users
+
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection("Ingresos")
+      .onSnapshot((querySnapshot) => {
+        const ingresos = [];
+
+        querySnapshot.forEach((documentSnapshot) => {
+          ingresos.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+          });
+        });
+
+        setIngresos(ingresos);
+        setLoading(false);
+      });
+
+    // Unsubscribe from events when no longer in use
+    return () => subscriber();
+  }, []);
+
+  if (loading) {
+    return <ActivityIndicator />;
+  }
 
   return (
     <>
@@ -78,285 +100,48 @@ const MoviIngreScreen = () => {
             </TouchableOpacity>
             <Text style={styles.selectorfechatxt}>Total:100</Text>
           </View>
-          <ScrollView style={styles.scrollcont}>
-            <View>
-              <Text style={{ paddingLeft: 10 }}>02 de octubre de 2023</Text>
-            </View>
-            <View style={styles.lista}>
-              <View>
-                <Image
-                  contentFit="cover"
-                  source={require("../assets/salario-1.png")}
-                />
-              </View>
-              <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salario</Text>
-                <Text>Salario Extra
-                </Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  width: "100%",
-                  flexDirection: "row-reverse",
-                }}
-              >
+          <View>
+            <Text style={{ paddingLeft: 10, paddingTop: 10 }}>
+              02 de octubre de 2023
+            </Text>
+          </View>
+          <FlatList
+            data={ingresos}
+            renderItem={({ item }) => (
+              <View style={styles.lista}>
                 <View>
+                  <Image
+                    contentFit="cover"
+                    source={require("../assets/salario-1.png")}
+                  />
+                </View>
+                <View style={{ paddingLeft: 10 }}>
                   <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $100.00
+                    {item.categoria}
                   </Text>
-                  <Text>Principal</Text>
+                  <Text>{item.comentario}</Text>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    width: "100%",
+                    flexDirection: "row-reverse",
+                  }}
+                >
+                  <View>
+                    <Text style={{ fontSize: 16, fontWeight: "700" }}>
+                      ${item.valor}
+                    </Text>
+                    <Text>Principal</Text>
+                  </View>
                 </View>
               </View>
-            </View>
-            <View style={styles.lista}>
-              <View>
-                <Image
-                  contentFit="cover"
-                  source={require("../assets/salario-1.png")}
-                />
-              </View>
-              <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salario</Text>
-                <Text>Salario Extra
-                </Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  width: "100%",
-                  flexDirection: "row-reverse",
-                }}
-              >
-                <View>
-                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $100.00
-                  </Text>
-                  <Text>Principal</Text>
-                </View>
-              </View>
-            </View>
-            <View>
-              <Text style={{ paddingLeft: 10 }}>05 de octubre de 2023</Text>
-            </View>
-            <View style={styles.lista}>
-              <View>
-                <Image
-                  contentFit="cover"
-                  source={require("../assets/salario-1.png")}
-                />
-              </View>
-              <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salario</Text>
-                <Text>Salario Extra
-                </Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  width: "100%",
-                  flexDirection: "row-reverse",
-                }}
-              >
-                <View>
-                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $100.00
-                  </Text>
-                  <Text>Principal</Text>
-                </View>
-              </View>
-            </View>
-            <View style={styles.lista}>
-              <View>
-                <Image
-                  contentFit="cover"
-                  source={require("../assets/salario-1.png")}
-                />
-              </View>
-              <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salario</Text>
-                <Text>Salario Extra
-                </Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  width: "100%",
-                  flexDirection: "row-reverse",
-                }}
-              >
-                <View>
-                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $100.00
-                  </Text>
-                  <Text>Principal</Text>
-                </View>
-              </View>
-            </View>
-            <View style={styles.lista}>
-              <View>
-                <Image
-                  contentFit="cover"
-                  source={require("../assets/salario-1.png")}
-                />
-              </View>
-              <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salario</Text>
-                <Text>Salario Extra
-                </Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  width: "100%",
-                  flexDirection: "row-reverse",
-                }}
-              >
-                <View>
-                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $100.00
-                  </Text>
-                  <Text>Principal</Text>
-                </View>
-              </View>
-            </View>
-            <View style={styles.lista}>
-              <View>
-                <Image
-                  contentFit="cover"
-                  source={require("../assets/salario-1.png")}
-                />
-              </View>
-              <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salario</Text>
-                <Text>Salario Extra
-                </Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  width: "100%",
-                  flexDirection: "row-reverse",
-                }}
-              >
-                <View>
-                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $100.00
-                  </Text>
-                  <Text>Principal</Text>
-                </View>
-              </View>
-            </View>
-            <View style={styles.lista}>
-              <View>
-                <Image
-                  contentFit="cover"
-                  source={require("../assets/salario-1.png")}
-                />
-              </View>
-              <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salario</Text>
-                <Text>Salario Extra
-                </Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  width: "100%",
-                  flexDirection: "row-reverse",
-                }}
-              >
-                <View>
-                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $100.00
-                  </Text>
-                  <Text>Principal</Text>
-                </View>
-              </View>
-            </View>
-            <View style={styles.lista}>
-              <View>
-                <Image
-                  contentFit="cover"
-                  source={require("../assets/salario-1.png")}
-                />
-              </View>
-              <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salario</Text>
-                <Text>Salario Extra
-                </Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  width: "100%",
-                  flexDirection: "row-reverse",
-                }}
-              >
-                <View>
-                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $100.00
-                  </Text>
-                  <Text>Principal</Text>
-                </View>
-              </View>
-            </View>
-            <View style={styles.lista}>
-              <View>
-                <Image
-                  contentFit="cover"
-                  source={require("../assets/salario-1.png")}
-                />
-              </View>
-              <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salario</Text>
-                <Text>Salario Extra
-                </Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  width: "100%",
-                  flexDirection: "row-reverse",
-                }}
-              >
-                <View>
-                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $100.00
-                  </Text>
-                  <Text>Principal</Text>
-                </View>
-              </View>
-            </View>
-            <View style={styles.lista}>
-              <View>
-                <Image
-                  contentFit="cover"
-                  source={require("../assets/salario-1.png")}
-                />
-              </View>
-              <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16, fontWeight: "700" }}>Salario</Text>
-                <Text>Salario Extra
-                </Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  width: "100%",
-                  flexDirection: "row-reverse",
-                }}
-              >
-                <View>
-                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    $100.00
-                  </Text>
-                  <Text>Principal</Text>
-                </View>
-              </View>
-            </View>
-          </ScrollView>
-          <TouchableOpacity style={styles.btnAdd} onPress={() => navigation.navigate("AñadirTransaccion")}>
+            )}
+          />
+          <TouchableOpacity
+            style={styles.btnAdd}
+            onPress={() => navigation.navigate("AñadirIngresos")}
+          >
             <Text style={{ fontSize: 25 }}>+</Text>
           </TouchableOpacity>
         </View>
@@ -364,6 +149,7 @@ const MoviIngreScreen = () => {
     </>
   );
 };
+
 const styles = StyleSheet.create({
   ingresos: {
     flex: 1,

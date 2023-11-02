@@ -1,10 +1,49 @@
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+  ActivityIndicator,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Image } from "react-native";
+import firestore from "@react-native-firebase/firestore";
 
 const CategoriaGastosScreen = () => {
   const navigation = useNavigation();
+
+  const [loading, setLoading] = useState(true); // Set loading to true on component mount
+  const [catgastos, setCatgastos] = useState([]); // Initial empty array of users
+
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection("CATgastos")
+      .onSnapshot((querySnapshot) => {
+        const catgastos = [];
+
+        querySnapshot.forEach((documentSnapshot) => {
+          catgastos.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+          });
+        });
+
+        setCatgastos(catgastos);
+        setLoading(false);
+      });
+
+    // Unsubscribe from events when no longer in use
+    return () => subscriber();
+  }, []);
+
+  if (loading) {
+    return <ActivityIndicator />;
+  }
+
+  console.log(catgastos);
+
   return (
     <>
       <View style={styles.CatIngScreen}>
@@ -37,78 +76,84 @@ const CategoriaGastosScreen = () => {
           </View>
         </View>
         <View style={styles.categorias}>
-        <View style={{paddingLeft:10, paddingTop:20}}>
-              <Text style={{fontSize:18,fontWeight:'700'}}>Categorias:</Text>
-            </View>
-          <View style={styles.contenedorcateg}>
-            <View style={styles.conttextos}>
-              <Image
-                style={styles.image}
-                contentFit="cover"
-                source={require("../assets/heartCAT.png")}
-              />
-              <Text style={styles.textos}>Salud</Text>
-            </View>
-            <View style={styles.conttextos}>
-              <Image
-                style={styles.image}
-                contentFit="cover"
-                source={require("../assets/walletCAT.png")}
-              />
-              <Text style={styles.textos}>Ocio</Text>
-            </View>
-            <View style={styles.conttextos}>
-              <Image
-                style={styles.image}
-                contentFit="cover"
-                source={require("../assets/homeCAT.png")}
-              />
-              <Text style={styles.textos}>Casa</Text>
-            </View>
-            <View style={styles.conttextos}>
-              <Image
-                style={styles.image}
-                contentFit="cover"
-                source={require("../assets/coffeeCAT.png")}
-              />
-              <Text style={styles.textos}>Café</Text>
-            </View>
+          <View style={{ paddingLeft: 10, paddingTop: 20 }}>
+            <Text style={{ fontSize: 18, fontWeight: "700" }}>Categorias:</Text>
           </View>
-
-          <View style={styles.contenedorcateg}>
-            <View style={styles.conttextos}>
-              <Image
-                style={styles.image}
-                contentFit="cover"
-                source={require("../assets/mortarboardCAT.png")}
-              />
-              <Text style={styles.textos}>Educación</Text>
-            </View>
-            <View style={styles.conttextos}>
-              <Image
-                style={styles.image}
-                contentFit="cover"
-                source={require("../assets/giftboxCAT.png")}
-              />
-              <Text style={styles.textos}>Regalos</Text>
-            </View>
-            <View style={styles.conttextos}>
-              <Image
-                style={styles.image}
-                contentFit="cover"
-                source={require("../assets/healthy-foodCAT.png")}
-              />
-              <Text style={styles.textos}>Alimentación</Text>
-            </View>
-            <View style={styles.conttextos}>
-              <Image
-                style={styles.image}
-                contentFit="cover"
-                source={require("../assets/interrogationmarkCAT.png")}
-              />
-              <Text style={styles.textos}>Otros</Text>
-            </View>
-          </View>
+          <FlatList
+            data={catgastos}
+            renderItem={({ item }) => (
+              <>
+                <View style={styles.contenedorcateg}>
+                  <View style={styles.conttextos}>
+                    <Image
+                      style={styles.image}
+                      contentFit="cover"
+                      source={{ uri: item.salud }}
+                    />
+                    <Text style={styles.textos}>Salud</Text>
+                  </View>
+                  <View style={styles.conttextos}>
+                    <Image
+                      style={styles.image}
+                      contentFit="cover"
+                      source={{ uri: item.ocio }}
+                    />
+                    <Text style={styles.textos}>Ocio</Text>
+                  </View>
+                  <View style={styles.conttextos}>
+                    <Image
+                      style={styles.image}
+                      contentFit="cover"
+                      source={{ uri: item.casa }}
+                    />
+                    <Text style={styles.textos}>Casa</Text>
+                  </View>
+                  <View style={styles.conttextos}>
+                    <Image
+                      style={styles.image}
+                      contentFit="cover"
+                      source={{ uri: item.cafe }}
+                    />
+                    <Text style={styles.textos}>Café</Text>
+                  </View>
+                </View>
+                <View style={styles.contenedorcateg}>
+                  <View style={styles.conttextos}>
+                    <Image
+                      style={styles.image}
+                      contentFit="cover"
+                      source={require("../assets/mortarboardCAT.png")}
+                    />
+                    <Text style={styles.textos}>Educación</Text>
+                  </View>
+                  <View style={styles.conttextos}>
+                    <Image
+                      style={styles.image}
+                      contentFit="cover"
+                      source={require("../assets/giftboxCAT.png")}
+                    />
+                    <Text style={styles.textos}>Regalos</Text>
+                  </View>
+                  <View style={styles.conttextos}>
+                    <Image
+                      style={styles.image}
+                      contentFit="cover"
+                      source={require("../assets/healthy-foodCAT.png")}
+                    />
+                    <Text style={styles.textos}>Alimentación</Text>
+                  </View>
+                  <View style={styles.conttextos}>
+                    <Image
+                      style={styles.image}
+                      contentFit="cover"
+                      source={require("../assets/interrogationmarkCAT.png")}
+                    />
+                    <Text style={styles.textos}>Otros</Text>
+                  </View>
+                </View>
+              </>
+            )}
+          />
           <View style={styles.textos}></View>
         </View>
       </View>

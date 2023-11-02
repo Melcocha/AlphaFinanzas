@@ -6,7 +6,6 @@ import LoginScreen from "../../screens/Login";
 import RegisterScreen from "../../screens/Register";
 import HomeUser from "../../screens/HomeUser";
 import HomeScreen from '../../screens/HomeScreen';
-import StackScreen from '../../screens/StackScreen';
 import AjusteScreen from '../../screens/AjusteScreen';
 import AcercaScreen from '../../screens/Acerca';
 import AñadirTransaccionScreen from '../../screens/AñadirTransaccionScreen';
@@ -18,6 +17,7 @@ import CerrarSesion from '../../screens/CerrarSesion';
 
 
 import Icon from 'react-native-vector-icons/FontAwesome';
+import AñadirIngresosScreen from '../../screens/AñadirIngresosScreen';
 
 const LogStack = createNativeStackNavigator();
 
@@ -52,6 +52,11 @@ function StackMovimientos() {
       <HomeStackNavigator.Screen
         name="AñadirTransaccion" 
         component={AñadirTransaccionScreen}
+        options={{ headerShown: false, animation: "none" }}
+      />
+       <HomeStackNavigator.Screen
+        name="AñadirIngresos" 
+        component={AñadirIngresosScreen}
         options={{ headerShown: false, animation: "none" }}
       />
     </HomeStackNavigator.Navigator>
@@ -117,9 +122,8 @@ const Drawer = createDrawerNavigator();
           <Drawer.Screen name="Inicio" component={StackHome} options={{drawerIcon: ({ color, size }) => (<Icon name="home" color="white" size={size} /> ),}}/>
           <Drawer.Screen name="Movimientos" component={StackMovimientos} options={{drawerIcon: ({ color, size }) => (<Icon name="exchange" color="white" size={size} /> ),}}/> 
           <Drawer.Screen name="Categorias" component={StackcCategorias} options={{drawerIcon: ({ color, size }) => (<Icon name="th-large" color="white" size={size} /> ),}}/>
-          <Drawer.Screen name="Ajustes" component={AjusteScreen} options={{drawerIcon: ({ color, size }) => (<Icon name="briefcase" color="white" size={size} /> ),}}/>
           <Drawer.Screen name="Acerca De" component={AcercaScreen} options={{drawerIcon: ({ color, size }) => (<Icon name="comment-o" color="white" size={size} /> ),}}/>
-          <Drawer.Screen name="Stack" component={StackScreen} options={{drawerIcon: ({ color, size }) => (<Icon name="stack-exchange" color="white" size={size} /> ),}}/>
+          <Drawer.Screen name="Ajustes" component={AjusteScreen} options={{drawerIcon: ({ color, size }) => (<Icon name="briefcase" color="white" size={size} /> ),}}/>
           <Drawer.Screen name="Cerrar Sesión" component={CerrarSesion} options={{drawerIcon: ({ color, size }) => (<Icon name="sign-in" color="white" size={size} /> ),}}/>
         </Drawer.Navigator>
       );
