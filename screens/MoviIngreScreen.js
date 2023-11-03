@@ -18,8 +18,8 @@ import firestore from "@react-native-firebase/firestore";
 const MoviIngreScreen = () => {
   const navigation = useNavigation();
 
-  const [loading, setLoading] = useState(true); // Set loading to true on component mount
-  const [ingresos, setIngresos] = useState([]); // Initial empty array of users
+  const [loading, setLoading] = useState(true); // Activar la carga en el montaje de componentes
+  const [ingresos, setIngresos] = useState([]); // Matriz inicial vacía de ingresos
 
   useEffect(() => {
     const subscriber = firestore()
@@ -38,7 +38,7 @@ const MoviIngreScreen = () => {
         setLoading(false);
       });
 
-    // Unsubscribe from events when no longer in use
+    // Cancelar la suscripción a eventos cuando ya no se utilicen
     return () => subscriber();
   }, []);
 
@@ -108,34 +108,37 @@ const MoviIngreScreen = () => {
           <FlatList
             data={ingresos}
             renderItem={({ item }) => (
-              <View style={styles.lista}>
-                <View>
-                  <Image
-                    contentFit="cover"
-                    source={require("../assets/salario-1.png")}
-                  />
-                </View>
-                <View style={{ paddingLeft: 10 }}>
-                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    {item.categoria}
-                  </Text>
-                  <Text>{item.comentario}</Text>
-                </View>
-                <View
-                  style={{
-                    flex: 1,
-                    width: "100%",
-                    flexDirection: "row-reverse",
-                  }}
-                >
+              <TouchableOpacity>
+                <View style={styles.lista}>
                   <View>
+                    <Image
+                      contentFit="cover"
+                      source={{ uri: item.CatURL }}
+                      style={{ width: 55, height: 55 }}
+                    />
+                  </View>
+                  <View style={{ paddingLeft: 10 }}>
                     <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                      ${item.valor}
+                      {item.categoria}
                     </Text>
-                    <Text>Principal</Text>
+                    <Text>{item.comentario}</Text>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      width: "100%",
+                      flexDirection: "row-reverse",
+                    }}
+                  >
+                    <View>
+                      <Text style={{ fontSize: 16, fontWeight: "700" }}>
+                        ${item.valor}
+                      </Text>
+                      <Text>Principal</Text>
+                    </View>
                   </View>
                 </View>
-              </View>
+              </TouchableOpacity>
             )}
           />
           <TouchableOpacity
