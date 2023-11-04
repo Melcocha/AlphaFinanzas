@@ -8,16 +8,16 @@ import HomeUser from "../../screens/HomeUser";
 import HomeScreen from '../../screens/HomeScreen';
 import AjusteScreen from '../../screens/AjusteScreen';
 import AcercaScreen from '../../screens/Acerca';
-import AñadirTransaccionScreen from '../../screens/AñadirTransaccionScreen';
 import MoviGastosScreen from '../../screens/MoviGastosScreen';
 import MoviIngreScreen from '../../screens/MoviIngreScreen';
 import CategoriaGastosScreen from '../../screens/CategoriaGastosScreen';
 import CategoriaIngresosScreen from '../../screens/CategoriaIngresosScreen';
 import CerrarSesion from '../../screens/CerrarSesion';
-
+import AñadirIngresosScreen from '../../screens/AñadirIngresosScreen';
+import AñadirGastosScreen from '../../screens/AñadirGastosScreen';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
-import AñadirIngresosScreen from '../../screens/AñadirIngresosScreen';
+
 
 const LogStack = createNativeStackNavigator();
 
@@ -50,8 +50,8 @@ function StackMovimientos() {
       options={{headerShown:false, animation:"none"}}
       />
       <HomeStackNavigator.Screen
-        name="AñadirTransaccion" 
-        component={AñadirTransaccionScreen}
+        name="AñadirGastos" 
+        component={AñadirGastosScreen}
         options={{ headerShown: false, animation: "none" }}
       />
        <HomeStackNavigator.Screen

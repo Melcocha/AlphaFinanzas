@@ -14,7 +14,7 @@ import firestore from "@react-native-firebase/firestore";
 
 const windowWidth = Dimensions.get("window").width;
 
-const AñadirIngresosScreen = () => {
+const AñadirGastosScreen = () => {
   const navigation = useNavigation();
 
   const [valor, setValor] = useState(""); // Estado para el valor
@@ -36,48 +36,56 @@ const AñadirIngresosScreen = () => {
 
   const categorias = [
     {
-      icono: "Salario",
-      url: "https://firebasestorage.googleapis.com/v0/b/alpha-finanzas.appspot.com/o/Catingresos%2FsalarioCAT.png?alt=media&token=a1990cc3-7074-490c-a81a-df0eb28fe372",
+      icono: "Salud",
+      url: "https://firebasestorage.googleapis.com/v0/b/alpha-finanzas.appspot.com/o/Catgastos%2FheartCAT.png?alt=media&token=ee07d2f6-1b14-442e-b489-9caa3a1b3c2d",
+    },
+    {
+      icono: "Ocio",
+      url: "https://firebasestorage.googleapis.com/v0/b/alpha-finanzas.appspot.com/o/Catgastos%2FwalletCAT.png?alt=media&token=680f6c8a-8602-4683-bd19-20622ad45906",
+    },
+    {
+      icono: "Casa",
+      url: "https://firebasestorage.googleapis.com/v0/b/alpha-finanzas.appspot.com/o/Catgastos%2FhomeCAT.png?alt=media&token=72208754-6130-4e9f-bcda-f355f06cebbf",
+    },
+    {
+      icono: "Café",
+      url: "https://firebasestorage.googleapis.com/v0/b/alpha-finanzas.appspot.com/o/Catgastos%2FcoffeeCAT.png?alt=media&token=4dc83e41-6530-4cce-a89e-0365da83c18e",
+    },
+    {
+      icono: "Educación",
+      url: "https://firebasestorage.googleapis.com/v0/b/alpha-finanzas.appspot.com/o/Catgastos%2FmortarboardCAT.png?alt=media&token=75d3e72b-caf7-46e4-ac83-1c69252a9399",
     },
     {
       icono: "Regalos",
-      url: "https://firebasestorage.googleapis.com/v0/b/alpha-finanzas.appspot.com/o/Catingresos%2FgiftboxCAT.png?alt=media&token=8e5abec9-4f11-4135-a232-966902ed0e48",
+      url: "https://firebasestorage.googleapis.com/v0/b/alpha-finanzas.appspot.com/o/Catgastos%2FgiftboxCAT.png?alt=media&token=04e679ee-bbb4-40df-9b6c-1dafcf5c3fbe",
     },
     {
-      icono: "Intereses",
-      url: "https://firebasestorage.googleapis.com/v0/b/alpha-finanzas.appspot.com/o/Catingresos%2FbankCAT.png?alt=media&token=e4f7a8b4-5daa-43ae-bd89-edd92a43edfd",
+      icono: "Comida",
+      url: "https://firebasestorage.googleapis.com/v0/b/alpha-finanzas.appspot.com/o/Catgastos%2Fhealthy-foodCAT.png?alt=media&token=b2cf4201-f59a-4151-a1cd-65a98a31adf9",
     },
     {
       icono: "Otros",
-      url: "https://firebasestorage.googleapis.com/v0/b/alpha-finanzas.appspot.com/o/Catingresos%2FinterrogationmarkCAT.png?alt=media&token=70bd240e-e79b-477a-b9bb-b363495d62ed",
+      url: "https://firebasestorage.googleapis.com/v0/b/alpha-finanzas.appspot.com/o/Catgastos%2FinterrogationmarkCAT.png?alt=media&token=618ef74d-c8e4-4131-b7d8-ebe61b3208db",
     },
   ];
-  //console.log(categorias);
-  /*
-categorias.map((cat, index) => (
-  console.log(cat.url)
-))
-*/
+
   const save = () => {
-    /*
-    console.log(iconoSeleccionado)
-    console.log(categorias)
-*/
     if (iconoSeleccionado) {
       // Verifica si se ha seleccionado un ícono
-      firestore().collection("Ingresos").add({
+      firestore().collection("Gastos").add({
         valor: valor,
         comentario: comentario,
-        categoria: iconoSeleccionado,
-        CatURL: urlSeleccionado, // Utiliza la categoría seleccionada
+        categoria: iconoSeleccionado, // Utiliza la categoría seleccionada
+        CatURL: urlSeleccionado,
       });
       Alert.alert("Se ha agregado exitosamente su transacción");
-      navigation.navigate("Ingresos");
+      navigation.navigate("Gastos");
     } else {
       // Si no se ha seleccionado un ícono, muestra una alerta
       Alert.alert("Error", "Debes seleccionar una categoría");
     }
   };
+
   const handleChangeText = (value, field) => {
     if (field === "valor") {
       setValor(value);
@@ -85,29 +93,30 @@ categorias.map((cat, index) => (
       setComentario(value);
     }
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.menuSupCat}>
         <View style={styles.botonesCat}>
           <TouchableOpacity
-            onPress={() => navigation.navigate("CategoriaIngresos")}
+            onPress={() => navigation.navigate("AñadirIngresos")}
           >
+            <Text
+              style={{
+                fontSize: 24,
+                fontWeight: "bold",
+              }}
+            >
+              INGRESOS
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
             <Text
               style={{
                 fontSize: 24,
                 fontWeight: "bold",
                 color: "#FFC436",
                 textDecorationLine: "underline",
-              }}
-            >
-              INGRESOS
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("AñadirGastos")}>
-            <Text
-              style={{
-                fontSize: 24,
-                fontWeight: "bold",
               }}
             >
               GASTOS
@@ -123,11 +132,10 @@ categorias.map((cat, index) => (
           />
         </View>
       </View>
-
       <View style={styles.categoriasContainer}>
         <Text style={{ fontSize: 17, fontWeight: "bold" }}>Cuenta:</Text>
         <Text style={{ fontSize: 14 }}>Principal</Text>
-        <Text style={styles.titulo}>Categorías:</Text>
+        <Text style={styles.titulo}>Categorías</Text>
         <View style={styles.iconoContainer}>
           {categorias.map((cat, index) => (
             <TouchableOpacity
@@ -155,6 +163,7 @@ categorias.map((cat, index) => (
             </TouchableOpacity>
           ))}
         </View>
+
         <View style={styles.comentarioContainer}>
           <Text style={styles.titulo}>Comentario:</Text>
           <TextInput
@@ -164,17 +173,18 @@ categorias.map((cat, index) => (
           />
         </View>
       </View>
-
       <View style={styles.botonContainer}>
-        <TouchableOpacity
-          style={[
-            styles.botonAñadir,
-            { backgroundColor: "#FFC436", borderRadius: 10 },
-          ]}
-          onPress={save}
-        >
-          <Text style={[styles.buttonText, { color: "black" }]}>Añadir</Text>
-        </TouchableOpacity>
+        <View style={styles.botonContainer}>
+          <TouchableOpacity
+            style={[
+              styles.botonAñadir,
+              { backgroundColor: "#FFC436", borderRadius: 10 },
+            ]}
+            onPress={save}
+          >
+            <Text style={[styles.buttonText, { color: "black" }]}>Añadir</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -288,4 +298,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AñadirIngresosScreen;
+export default AñadirGastosScreen;

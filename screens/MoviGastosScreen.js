@@ -18,8 +18,8 @@ import firestore from "@react-native-firebase/firestore";
 const MoviGastosScreen = () => {
   const navigation = useNavigation();
 
-  const [loading, setLoading] = useState(true); // Set loading to true on component mount
-  const [gastos, setGastos] = useState([]); // Initial empty array of users
+  const [loading, setLoading] = useState(true); // Activar la carga en el montaje de componentes
+  const [gastos, setGastos] = useState([]); // Matriz inicial vacía de gastos
 
   useEffect(() => {
     const subscriber = firestore()
@@ -38,7 +38,7 @@ const MoviGastosScreen = () => {
         setLoading(false);
       });
 
-    // Unsubscribe from events when no longer in use
+    // Cancelar la suscripción a eventos cuando ya no se utilicen
     return () => subscriber();
   }, []);
 
@@ -112,7 +112,8 @@ const MoviGastosScreen = () => {
                 <View>
                   <Image
                     contentFit="cover"
-                    source={require("../assets/salario-1.png")}
+                    source={{ uri: item.CatURL }}
+                    style={{ width: 55, height: 55 }}
                   />
                 </View>
                 <View style={{ paddingLeft: 10 }}>
@@ -141,7 +142,7 @@ const MoviGastosScreen = () => {
 
           <TouchableOpacity
             style={styles.btnAdd}
-            onPress={() => navigation.navigate("AñadirTransaccion")}
+            onPress={() => navigation.navigate("AñadirGastos")}
           >
             <Text style={{ fontSize: 25 }}>+</Text>
           </TouchableOpacity>
