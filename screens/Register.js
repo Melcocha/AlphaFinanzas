@@ -3,52 +3,84 @@ import {
   View,
   Text,
   StyleSheet,
-  TextInput,
   TouchableOpacity,
   Alert,
   Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-
+import { validateEmail } from "../src/utils/validation";
+import { Input } from "react-native-elements";
 import auth from "@react-native-firebase/auth";
 
 const RegisterScreen = () => {
   const navigation = useNavigation();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [formData, setFormData] = useState(defaultFormValues());
+  const [errorEmail, setErrorEmail] = useState("");
+  const [errorPassword, setErrorPassword] = useState("");
+  const [errorConfirm, setErrorConfirm] = useState("");
 
-  const handleCreateAccount = () => {
-    if (password !== confirmPassword) {
-      alert("Las contraseñas son diferentes");
+  const onChange = (e, type) => {
+    setFormData({ ...formData, [type]: e.nativeEvent.text });
+  };
+
+  const handleCreateAccount = async () => {
+    if (!validateData()) {
       return;
     }
 
-    auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user);
-        console.log("Cuenta creada con exito");
-        Alert.alert("Cuenta creada con exito " + email);
-        navigation.navigate("Login");
-      })
-      .catch((error) => {
-        if (error.code === "auth/email-already-in-use") {
-          Alert.alert(
-            "La dirección de correo electrónico ya se encuentra registrada!"
-          );
-        }
+    const CreateAccountFirebase = async (email, password) => {
+      const result = { statusResponse: true, error: null };
+      await auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then(() => {
+          Alert.alert("Se ha registrado su cuenta correctamente.");
+          navigation.navigate("Login")
+        })
+        .catch((error) => {
+          if (error.code === "auth/email-already-in-use") {
+            Alert.alert("El correo Electrónico ya se encuentra registrado!")
+          }
+          console.error(error);
+        });
+      return result;
+    };
 
-        if (error.code === "auth/invalid-email") {
-          Alert.alert("La dirección de correo electrónico es invalida");
-        }
-        if (error.code === "auth/weak-password") {
-          Alert.alert("La contraseña debe tener 6 carácteres o más");
-        }
-        console.error(error);
-      });
+    const result = await CreateAccountFirebase(
+      formData.email,
+      formData.password
+    );
+  };
+
+  const validateData = () => {
+    setErrorEmail("");
+    setErrorPassword("");
+    setErrorConfirm("");
+    let isValid = true;
+
+    if (!validateEmail(formData.email)) {
+      setErrorEmail("Debes ingresas un email válido.");
+      isValid = false;
+    }
+    if (formData.password.length < 6) {
+      setErrorPassword(
+        "Debes ingresar una contraseña de al menos 6 carácteres."
+      );
+      isValid = false;
+    }
+    if (formData.confirm.length < 6) {
+      setErrorConfirm(
+        "Debes ingresar una confirmación de contraseña de al menos 6 carácteres."
+      );
+      isValid = false;
+    }
+    if (formData.password !== formData.confirm) {
+      setErrorPassword("La contraseña y la confirmación no son iguales.");
+      setErrorConfirm("La contraseña y la confirmación no son iguales.");
+      isValid = false;
+    }
+
+    return isValid;
   };
 
   return (
@@ -58,54 +90,71 @@ const RegisterScreen = () => {
         <Text style={styles.title}>Crear una cuenta</Text>
       </View>
       <View style={styles.inputsection}>
-        <Text style={styles.InputTittle}>Correo Electrónico:</Text>
-        <TextInput
-          placeholder="Correo Electrónico"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-          style={styles.input}
-        />
-        <Text style={styles.InputTittle}>Contraseña:</Text>
-        <TextInput
-          placeholder="Contraseña"
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-          secureTextEntry
-          style={styles.input}
-        />
-        <Text style={styles.InputTittle}>Confirmar Contraseña:</Text>
-        <TextInput
-          placeholder="Confirmar Contraseña"
-          value={confirmPassword}
-          onChangeText={(text) => setConfirmPassword(text)}
-          secureTextEntry
-          style={styles.input}
-        />
+        <View >
+          <Text style={styles.InputTittle}>Correo Electrónico:</Text>
+          <Input
+            placeholder="Ingresa tu Correo Electrónico..."
+            onChange={(e) => onChange(e, "email")}
+            style={styles.input}
+            keyboardType="email-address"
+            errorMessage={errorEmail}
+            defaultValue={formData.email}
+            inputContainerStyle={{ borderBottomWidth: 0, width: "100%" }}
+          />
+        </View>
+        <View>
+          <Text style={styles.InputTittle}>Contraseña:</Text>
+          <Input
+            placeholder="Ingresa tu Contraseña..."
+            onChange={(e) => onChange(e, "password")}
+            secureTextEntry
+            style={styles.input}
+            errorMessage={errorPassword}
+            defaultValue={formData.password}
+            inputContainerStyle={{ borderBottomWidth: 0 }}
+          />
+        </View>
+        <View style={{ marginBottom: 10 }}>
+          <Text style={styles.InputTittle}>Confirmar Contraseña:</Text>
+          <Input
+            placeholder="Confirma tu Contraseña..."
+            onChange={(e) => onChange(e, "confirm")}
+            secureTextEntry
+            style={styles.input}
+            errorMessage={errorConfirm}
+            defaultValue={formData.confirm}
+            inputContainerStyle={{ borderBottomWidth: 0 }}
+          />
+        </View>
       </View>
-      <View style={styles.buttonsection}>
-      <TouchableOpacity
-        style={[styles.buttonLogin]}
-        onPress={handleCreateAccount}
-      >
-        <Text style={{ color: "black", fontSize: 18, fontWeight: "bold" }}>
-          Crear Cuenta
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-        <Text style={styles.buttonlogin}>
-          ¿Ya tienes una cuenta? Ingresa aquí
-        </Text>
-      </TouchableOpacity>
+      <View style={styles.bottonSection}>
+        <TouchableOpacity
+          style={[styles.buttonLogin]}
+          onPress={() => handleCreateAccount()}
+        >
+          <Text style={{ color: "black", fontSize: 18, fontWeight: "bold" }}>
+            Crear Cuenta
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+          <Text style={styles.buttonlogin}>
+            ¿Ya tienes una cuenta? Ingresa aquí
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
+};
+
+const defaultFormValues = () => {
+  return { email: "", password: "", confirm: "" };
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    margin: 18,
+    margin: 8,
   },
   tittlesection: {
     alignItems: "center",
@@ -131,13 +180,13 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   buttonLogin: {
-    width: "100%",
+    width: "95%",
     height: 55,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FFC436",
     borderRadius: 5,
-    marginBottom: 20
+    marginBottom: 20,
   },
   input: {
     padding: 10,
@@ -146,17 +195,17 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     borderRadius: 5,
     fontSize: 14,
-    marginBottom: 25
   },
   buttonlogin: {
     textAlign: "center",
     color: "#27374D",
     textDecorationLine: "underline",
-    fontSize:16
+    fontSize: 16,
   },
   InputTittle: {
     fontSize: 18,
     fontWeight: "bold",
+    marginLeft: 10,
   },
 });
 

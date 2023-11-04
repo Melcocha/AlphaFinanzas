@@ -3,12 +3,12 @@ import {
   View,
   Text,
   StyleSheet,
-  TextInput,
-  Button,
   TouchableOpacity,
   Alert,
   Image,
 } from "react-native";
+import { Input } from "react-native-elements";
+
 import { useNavigation } from "@react-navigation/native";
 
 //login con google
@@ -20,8 +20,60 @@ import auth from "@react-native-firebase/auth";
 const LoginScreen = () => {
   const navigation = useNavigation();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState(defaultFormValues());
+  const [errorEmail, setErrorEmail] = useState("");
+  const [errorPassword, setErrorPassword] = useState("");
+
+  const onChange = (e, type) => {
+    setFormData({ ...formData, [type]: e.nativeEvent.text });
+  };
+
+  const handleSignIn = async () => {
+    if (!validateData()) {
+      return;
+    }
+
+    const SignInFirebase = async (email, password) => {
+      const result = { statusResponseL: true, error: null };
+      await auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(() => {
+          Alert.alert("logeado exitosamente, Bienvenido: " + email);
+          navigation.navigate("Inicio");
+        })
+        .catch((error) => {
+          if (error.code === "auth/invalid-login") {
+              Alert.alert("El correo Electrónico o Contraseña son incorrectos!")
+          }
+          if (error.code === "auth/invalid-email") {
+            Alert.alert("El correo Electrónico no es válido!")
+          }
+          console.error(error);
+        });
+        
+      return result;
+    };
+
+    const result = await SignInFirebase(formData.email, formData.password);
+  };
+
+  const validateData = () => {
+    setErrorEmail("");
+    setErrorPassword("");
+    let isValid = true;
+
+    if (formData.email.length == 0) {
+      setErrorEmail("Debes ingresar un correo electronico");
+      isValid = false;
+    }
+    if (formData.password.length == 0) {
+      setErrorPassword(
+        "Debes ingresar una contraseña de al menos 6 carácteres."
+      );
+      isValid = false;
+    }
+    return isValid;
+  };
 
   //Login con Google
   useEffect(() => {
@@ -54,28 +106,6 @@ const LoginScreen = () => {
     }
   }
 
-  // Inicio de sesion normal
-  const handleSignIn = () => {
-
-    //AGREGAR VALIDACION
-
-    auth()
-      .signInWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user);
-        console.log("Logeado exitosamente");
-        Alert.alert("logeado exitosamente, Bienvenido: " + email);
-        navigation.navigate("Inicio");
-      })
-      .catch((error) => {
-        if (error.code === "auth/invalid-login") {
-          Alert.alert("El correo o contraseña son incorrectos!");
-        }
-        console.error(error);
-      });
-  };
-
   return (
     <View style={styles.container}>
       <View style={styles.tittlesection}>
@@ -84,25 +114,30 @@ const LoginScreen = () => {
       </View>
 
       <View style={styles.inputsection}>
-
+        <View >
           <Text style={styles.InputTittle}>Correo Electrónico:</Text>
-          <TextInput
-            placeholder="Correo Electrónico"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
+          <Input
+            placeholder="Ingresa tu Correo Electrónico..."
+            onChange={(e) => onChange(e, "email")}
             style={styles.input}
+            keyboardType="email-address"
+            errorMessage={errorEmail}
+            defaultValue={formData.email}
+            inputContainerStyle={{ borderBottomWidth: 0 }}
           />
-
-
+        </View>
+        <View >
           <Text style={styles.InputTittle}>Contraseña:</Text>
-          <TextInput
-            placeholder="Contraseña"
-            value={password}
-            onChangeText={(text) => setPassword(text)}
+          <Input
+            placeholder="Ingresa tu Contraseña..."
+            onChange={(e) => onChange(e, "password")}
             secureTextEntry
             style={styles.input}
+            errorMessage={errorPassword}
+            defaultValue={formData.password}
+            inputContainerStyle={{ borderBottomWidth: 0 }}
           />
-
+        </View>
       </View>
 
       <View style={styles.bottonSection}>
@@ -129,11 +164,15 @@ const LoginScreen = () => {
   );
 };
 
+const defaultFormValues = () => {
+  return { email: "", password: "" };
+};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    margin: 18,
+    margin: 8,
   },
   tittlesection: {
     alignItems: "center",
@@ -159,7 +198,8 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   buttonLogin: {
-    width: "100%",
+    marginTop:10,
+    width: "95%",
     height: 55,
     justifyContent: "center",
     alignItems: "center",
@@ -168,7 +208,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   buttonLoginGoogle: {
-    width: "100%",
+    width: "95%",
     height: 55,
     justifyContent: "center",
     alignItems: "center",
@@ -180,7 +220,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#27374D",
     textDecorationLine: "underline",
-    fontSize:16
+    fontSize: 16,
   },
   input: {
     padding: 10,
@@ -189,11 +229,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     borderRadius: 5,
     fontSize: 14,
-    marginBottom: 30
   },
   InputTittle: {
     fontSize: 18,
     fontWeight: "bold",
+    marginLeft: 10,
   },
 });
 
