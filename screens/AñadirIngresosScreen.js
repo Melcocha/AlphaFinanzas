@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 30,
     borderBottomLeftRadius: 30,
     borderWidth: 2,
-    borderColor: "#a8a8a8",
+    borderColor: "#64748B",
     shadowOpacity: 1,
   },
   botonesCat: {
@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginHorizontal: 8,
     borderWidth: 2,
-    borderColor: "#a8a8a8",
+    borderColor: "#64748B",
     shadowOpacity: 1,
   },
   comentarioContainer: {
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     fontSize: 22,
     borderWidth: 2,
-    borderColor: "#a8a8a8",
+    borderColor: "#64748B",
     shadowOpacity: 1,
     borderRadius: 10,
   },
@@ -268,8 +268,9 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   inputComentario: {
-    borderWidth: 1,
-    borderColor: "#ccc",
+    borderWidth: 2,
+    borderColor: "#64748B",
+    shadowOpacity: 1,
     borderRadius: 10,
     padding: 10,
     marginBottom: 10,

@@ -4,7 +4,6 @@ import {
   Text,
   StyleSheet,
   TextInput,
-  Button,
   TouchableOpacity,
   Alert,
   Image,
@@ -16,8 +15,6 @@ import auth from "@react-native-firebase/auth";
 const RegisterScreen = () => {
   const navigation = useNavigation();
 
-  const [nombre, setNombre] = useState("");
-  const [apellido, setApellido] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -56,91 +53,110 @@ const RegisterScreen = () => {
 
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          alignItems: "center",
-          justifyContent: "center",
-          marginBottom: 25,
-        }}
-      >
+      <View style={styles.tittlesection}>
         <Image source={require("../assets/icon.png")} style={styles.logo} />
+        <Text style={styles.title}>Crear una cuenta</Text>
       </View>
-      <Text style={styles.title}>Crear una cuenta</Text>
-      <TextInput
-        placeholder="Nombre"
-        value={nombre}
-        onChangeText={setNombre}
-        style={styles.input}
-      />
-      <TextInput
-        placeholder="Apellido"
-        value={apellido}
-        onChangeText={setApellido}
-        style={styles.input}
-      />
-      <TextInput
-        placeholder="Correo Electrónico"
-        value={email}
-        onChangeText={(text) => setEmail(text)}
-        style={styles.input}
-      />
-      <TextInput
-        placeholder="Contraseña"
-        value={password}
-        onChangeText={(text) => setPassword(text)}
-        secureTextEntry
-        style={styles.input}
-      />
-      <TextInput
-        placeholder="Confirmar Contraseña"
-        value={confirmPassword}
-        onChangeText={(text) => setConfirmPassword(text)}
-        secureTextEntry
-        style={styles.input}
-      />
-      <Button
-        title="Crear Cuenta"
+      <View style={styles.inputsection}>
+        <Text style={styles.InputTittle}>Correo Electrónico:</Text>
+        <TextInput
+          placeholder="Correo Electrónico"
+          value={email}
+          onChangeText={(text) => setEmail(text)}
+          style={styles.input}
+        />
+        <Text style={styles.InputTittle}>Contraseña:</Text>
+        <TextInput
+          placeholder="Contraseña"
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+          secureTextEntry
+          style={styles.input}
+        />
+        <Text style={styles.InputTittle}>Confirmar Contraseña:</Text>
+        <TextInput
+          placeholder="Confirmar Contraseña"
+          value={confirmPassword}
+          onChangeText={(text) => setConfirmPassword(text)}
+          secureTextEntry
+          style={styles.input}
+        />
+      </View>
+      <View style={styles.buttonsection}>
+      <TouchableOpacity
+        style={[styles.buttonLogin]}
         onPress={handleCreateAccount}
-        color="#FFD700"
-      />
+      >
+        <Text style={{ color: "black", fontSize: 18, fontWeight: "bold" }}>
+          Crear Cuenta
+        </Text>
+      </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-        <Text style={styles.loginText}>
+        <Text style={styles.buttonlogin}>
           ¿Ya tienes una cuenta? Ingresa aquí
         </Text>
       </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    margin: 18,
+  },
+  tittlesection: {
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  inputsection: {
+    justifyContent: "space-between",
+  },
+  bottonSection: {
+    justifyContent: "center",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
   logo: {
     width: 150,
     height: 150,
     resizeMode: "contain",
-  },
-  container: {
-    flex: 1,
-    padding: 16,
-    justifyContent: "center",
-    backgroundColor: "#f2f2f2",
+    marginBottom: 20,
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 16,
-    textAlign: "center",
+    marginBottom: 30,
+  },
+  buttonLogin: {
+    width: "100%",
+    height: 55,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FFC436",
+    borderRadius: 5,
+    marginBottom: 20
   },
   input: {
-    marginBottom: 16,
     padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "blue",
+    borderWidth: 3,
+    borderColor: "#64748B",
+    shadowOpacity: 1,
+    borderRadius: 5,
+    fontSize: 14,
+    marginBottom: 25
   },
-  loginText: {
+  buttonlogin: {
     textAlign: "center",
-    marginTop: 20,
-    color: "blue",
+    color: "#27374D",
     textDecorationLine: "underline",
+    fontSize:16
+  },
+  InputTittle: {
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });
 

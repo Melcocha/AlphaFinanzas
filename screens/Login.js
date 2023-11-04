@@ -56,6 +56,9 @@ const LoginScreen = () => {
 
   // Inicio de sesion normal
   const handleSignIn = () => {
+
+    //AGREGAR VALIDACION
+
     auth()
       .signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
@@ -75,105 +78,122 @@ const LoginScreen = () => {
 
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          alignItems: "center",
-          justifyContent: "center",
-          marginBottom: 25,
-        }}
-      >
+      <View style={styles.tittlesection}>
         <Image source={require("../assets/icon.png")} style={styles.logo} />
+        <Text style={styles.title}>Iniciar Sesión</Text>
       </View>
 
-      <Text style={styles.title}>Iniciar Sesión</Text>
-      <TextInput
-        placeholder="Correo Electrónico"
-        value={email}
-        onChangeText={(text) => setEmail(text)}
-        style={styles.input}
-      />
-      <TextInput
-        placeholder="Contraseña"
-        value={password}
-        onChangeText={(text) => setPassword(text)}
-        secureTextEntry
-        style={styles.input}
-      />
-      <View style={styles.bottomSection}>
-        <TouchableOpacity
-          style={[styles.buttonLogin]}
-          onPress={handleSignIn}
-        >
-          <Text style={{color:'black', fontSize:18, fontWeight:'bold'}}>Iniciar Sesión</Text>
+      <View style={styles.inputsection}>
+
+          <Text style={styles.InputTittle}>Correo Electrónico:</Text>
+          <TextInput
+            placeholder="Correo Electrónico"
+            value={email}
+            onChangeText={(text) => setEmail(text)}
+            style={styles.input}
+          />
+
+
+          <Text style={styles.InputTittle}>Contraseña:</Text>
+          <TextInput
+            placeholder="Contraseña"
+            value={password}
+            onChangeText={(text) => setPassword(text)}
+            secureTextEntry
+            style={styles.input}
+          />
+
+      </View>
+
+      <View style={styles.bottonSection}>
+        <TouchableOpacity style={[styles.buttonLogin]} onPress={handleSignIn}>
+          <Text style={{ color: "black", fontSize: 18, fontWeight: "bold" }}>
+            Iniciar Sesión
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.buttonLoginGoogle]}
           onPress={onGoogleButtonPress}
         >
-          <Text style={{color:'#fff', fontSize:18, fontWeight:'bold'}}>Login with Google</Text>
+          <Text style={{ color: "#fff", fontSize: 18, fontWeight: "bold" }}>
+            Login with Google
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Registro")}>
+          <Text style={styles.buttonregister}>
+            ¿No tienes una cuenta? Registrate aquí
+          </Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate("Registro")}>
-        <Text style={styles.registerText}>
-          ¿No estás registrado? Registrarse
-        </Text>
-      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    margin: 18,
+  },
+  tittlesection: {
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  inputsection: {
+    justifyContent: "space-between",
+  },
+  bottonSection: {
+    justifyContent: "center",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
   logo: {
     width: 150,
     height: 150,
     resizeMode: "contain",
-  },
-  container: {
-    flex: 1,
-    padding: 16,
-    justifyContent: "center",
-    backgroundColor: "#f2f2f2",
+    marginBottom: 20,
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 16,
-    textAlign: "center",
-  },
-  bottomSection: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: "#f2f2f2", 
+    marginBottom: 30,
   },
   buttonLogin: {
-    width: '100%',
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginVertical: 10,
-    backgroundColor: '#FFC436', 
-    borderRadius: 10 
+    width: "100%",
+    height: 55,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FFC436",
+    borderRadius: 5,
+    marginBottom: 20,
   },
   buttonLoginGoogle: {
-    width: '100%',
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginVertical: 10,
-    backgroundColor: '#4285f4', 
-    borderRadius: 10 
+    width: "100%",
+    height: 55,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#4285f4",
+    borderRadius: 5,
+    marginBottom: 20,
+  },
+  buttonregister: {
+    textAlign: "center",
+    color: "#27374D",
+    textDecorationLine: "underline",
+    fontSize:16
   },
   input: {
-    marginBottom: 16,
     padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "blue",
+    borderWidth: 3,
+    borderColor: "#64748B",
+    shadowOpacity: 1,
+    borderRadius: 5,
+    fontSize: 14,
+    marginBottom: 30
   },
-  registerText: {
-    textAlign: "center",
-    marginTop: 20,
-    color: "blue",
-    textDecorationLine: "underline",
+  InputTittle: {
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });
 

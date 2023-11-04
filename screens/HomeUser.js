@@ -25,7 +25,7 @@ const HomeScreenUser = () => {
         <Text
               style={{ fontSize: 26, fontWeight: "bold", color: "#FFC436", marginTop:10}}
             >
-              AlphaFinanzas
+              Alpha Finanzas
             </Text>
       </View>
       <View style={styles.bottomSection}>
@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   bottomSection: {
+
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -70,8 +71,8 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   button: {
-    width: 300,
-    height: 50,
+    width: '90%',
+    height: 55,
     justifyContent: 'center',
     alignItems: 'center',
     marginVertical: 10,

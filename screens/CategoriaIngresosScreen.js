@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 30,
     borderBottomLeftRadius: 30,
     borderWidth: 2,
-    borderColor: "#a8a8a8",
+    borderColor: "#64748B",
     shadowOpacity: 1,
   },
   botonesCat: {
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     margin: 8,
     borderWidth: 2,
-    borderColor: "#a8a8a8",
+    borderColor: "#64748B",
     shadowOpacity: 1,
   },
   contenedorcateg: {
