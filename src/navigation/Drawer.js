@@ -6,7 +6,7 @@ export default function DrawerNavigation() {
       <Drawer.Drawer
         drawerContent={(props) => <CustomDrawerContent {...props} />}
       >
-        <Drawer.Screen name="Inicio" component={HomeScreen} />
+        {/* <Drawer.Screen name="Inicio" component={HomeScreen} /> */}
       </Drawer.Drawer>
     );
   }
