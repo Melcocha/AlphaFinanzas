@@ -58,26 +58,25 @@ categorias.map((cat, index) => (
   console.log(cat.url)
 ))
 */
-  const save = () => {
-    /*
-    console.log(iconoSeleccionado)
-    console.log(categorias)
-*/
-    if (iconoSeleccionado) {
-      // Verifica si se ha seleccionado un ícono
-      firestore().collection("Ingresos").add({
-        valor: valor,
-        comentario: comentario,
-        categoria: iconoSeleccionado,
-        CatURL: urlSeleccionado, // Utiliza la categoría seleccionada
-      });
-      Alert.alert("Se ha agregado exitosamente su transacción");
-      navigation.navigate("Ingresos");
-    } else {
-      // Si no se ha seleccionado un ícono, muestra una alerta
-      Alert.alert("Error", "Debes seleccionar una categoría");
-    }
-  };
+const save = () => {
+  if (!valor || valor.trim() === "") {
+    // Verifica si el campo de valor está vacío o solo contiene espacios en blanco
+    Alert.alert("AVISO", "Debes ingresar un valor válido");
+  } else if (!iconoSeleccionado) {
+    // Si no se ha seleccionado un ícono, muestra una alerta
+    Alert.alert("AVISO", "Debes seleccionar una categoría");
+  } else {
+    // Si hay un valor y se ha seleccionado un ícono, realiza la inserción en la base de datos
+    firestore().collection("Ingresos").add({
+      valor: valor,
+      comentario: comentario,
+      categoria: iconoSeleccionado,
+      CatURL: urlSeleccionado, // Utiliza la categoría seleccionada
+    });
+    Alert.alert("Se ha agregado exitosamente su transacción");
+    navigation.navigate("Ingresos");
+  }
+};
   const handleChangeText = (value, field) => {
     if (field === "valor") {
       setValor(value);
