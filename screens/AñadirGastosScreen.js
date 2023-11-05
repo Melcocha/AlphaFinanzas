@@ -11,6 +11,10 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import firestore from "@react-native-firebase/firestore";
+import auth from "@react-native-firebase/auth";
+
+const user = auth().currentUser;
+const uid = user.uid;
 
 const windowWidth = Dimensions.get("window").width;
 
@@ -82,7 +86,8 @@ const AñadirGastosScreen = () => {
         valor: valor,
         comentario: comentario,
         categoria: iconoSeleccionado,
-        CatURL: urlSeleccionado, // Utiliza la categoría seleccionada
+        CatURL: urlSeleccionado,
+        userId: uid, // Utiliza la categoría seleccionada
       });
       Alert.alert("Se ha agregado exitosamente su transacción");
       navigation.navigate("Gastos");

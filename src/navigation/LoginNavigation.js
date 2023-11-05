@@ -1,6 +1,8 @@
 import React from 'react';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import auth from "@react-native-firebase/auth";
+
 
 import LoginScreen from "../../screens/Login";
 import RegisterScreen from "../../screens/Register";
@@ -20,6 +22,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 const LogStack = createNativeStackNavigator();
+const user = auth().currentUser;
+const userEmail = user ? user.email : null;
+console.log(userEmail);
 
 export default function LoginNavigation(){
     return(

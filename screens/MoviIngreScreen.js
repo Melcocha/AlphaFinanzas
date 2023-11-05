@@ -15,6 +15,7 @@ import Fontisto from "react-native-vector-icons/Fontisto";
 import { useNavigation } from "@react-navigation/native";
 import { Image } from "react-native";
 import firestore from "@react-native-firebase/firestore";
+import auth from "@react-native-firebase/auth";
 
 const MoviIngreScreen = () => {
   const navigation = useNavigation();
@@ -24,10 +25,14 @@ const MoviIngreScreen = () => {
   const [modalVisible, setModalVisible] = useState(false); // Estado para controlar la visibilidad del primer modal
   const [confirmVisible, setConfirmVisible] = useState(false); // Estado para controlar la visibilidad del segundo modal
   const [selectedItem, setSelectedItem] = useState(null); // Estado para guardar el elemento seleccionado
+  const user = auth().currentUser;
+  const uid = user.uid;
+  const totalIngresos = ingresos.reduce((total, item) => total + parseFloat(item.valor), 0);
 
   useEffect(() => {
     const subscriber = firestore()
       .collection("Ingresos")
+      .where("userId", "==", uid)
       .onSnapshot((querySnapshot) => {
         const ingresos = [];
 
@@ -127,7 +132,7 @@ const MoviIngreScreen = () => {
             <TouchableOpacity>
               <Text style={styles.selectorfechatxt}>02 oct. - 08 oct.</Text>
             </TouchableOpacity>
-            <Text style={styles.selectorfechatxt}>Total:100</Text>
+            <Text style={styles.selectorfechatxt}>Total: ${totalIngresos}</Text>
           </View>
           <View>
             <Text style={{ paddingLeft: 10, paddingTop: 10 }}>
@@ -170,7 +175,7 @@ const MoviIngreScreen = () => {
               </TouchableOpacity>
             )}
           />
-
+  
           <Modal
             animationType="slide"
             transparent={true}
