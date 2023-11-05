@@ -22,6 +22,9 @@ const CerrarSesionScreen = () => {
       });
   };
 
+    const email = auth().currentUser.email;
+
+
   const handleSignOutGoogle = async () => {
     try {
       await GoogleSignin.signOut();
@@ -37,6 +40,12 @@ const CerrarSesionScreen = () => {
 
   return (
     <View>
+      <View style={{justifyContent:'center', alignItems: 'center', marginTop: 30}}>
+
+        <Text style={{alignItems: 'center', justifyContent: 'center', color:'black', fontSize:18, fontWeight:'bold' }}>Usuario: </Text>
+        <Text style={{alignItems: 'center', justifyContent: 'center', color:'black', fontSize:18, fontWeight:'bold' }}>  {email}</Text>
+
+      </View>
       <View style={styles.bottomSection}>
         <TouchableOpacity
           style={[styles.buttonLogin]}
@@ -57,6 +66,7 @@ const CerrarSesionScreen = () => {
 
 const styles = StyleSheet.create({
   bottomSection: {
+    marginTop: 30,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: "#f2f2f2", 
