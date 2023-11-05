@@ -13,12 +13,13 @@ import { useNavigation } from "@react-navigation/native";
 import firestore from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth";
 
-const user = auth().currentUser;
-const uid = user.uid;
+
 
 const windowWidth = Dimensions.get("window").width;
 
 const AñadirGastosScreen = () => {
+  const user = auth().currentUser;
+const uid = user.uid;
   const navigation = useNavigation();
 
   const [valor, setValor] = useState(""); // Estado para el valor
