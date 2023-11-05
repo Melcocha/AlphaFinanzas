@@ -7,7 +7,6 @@ import auth from "@react-native-firebase/auth";
 import LoginScreen from "../../screens/Login";
 import RegisterScreen from "../../screens/Register";
 import HomeUser from "../../screens/HomeUser";
-import HomeScreen from '../../screens/HomeScreen';
 import AjusteScreen from '../../screens/AjusteScreen';
 import AcercaScreen from '../../screens/Acerca';
 import MoviGastosScreen from '../../screens/MoviGastosScreen';
@@ -17,7 +16,8 @@ import CategoriaIngresosScreen from '../../screens/CategoriaIngresosScreen';
 import CerrarSesion from '../../screens/CerrarSesion';
 import AñadirIngresosScreen from '../../screens/AñadirIngresosScreen';
 import AñadirGastosScreen from '../../screens/AñadirGastosScreen';
-
+import HomeScreenIngresos from '../../screens/HomeScreenIngresos';
+import HomeScreenGastos from '../../screens/HomeScreenGastos';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 
@@ -71,13 +71,28 @@ function StackMovimientos() {
 function StackHome() {
   return(
     <HomeStackNavigator.Navigator>
-     <HomeStackNavigator.Screen
-      name="inicio"
-      component={HomeScreen}
+      <HomeStackNavigator.Screen
+      name="HomeIngresos"
+      component={HomeScreenIngresos}
       options={{headerShown:false, animation:"none"}}
       />
+      <HomeStackNavigator.Screen
+      name="HomeGastos"
+      component={HomeScreenGastos}
+      options={{headerShown:false, animation:"none"}}
+      />
+      <HomeStackNavigator.Screen
+        name="AñadirGastos" 
+        component={AñadirGastosScreen}
+        options={{ headerShown: false, animation: "none" }}
+      />
+       <HomeStackNavigator.Screen
+        name="AñadirIngresos" 
+        component={AñadirIngresosScreen}
+        options={{ headerShown: false, animation: "none" }}
+      />
     </HomeStackNavigator.Navigator>
-  )
+  ) 
 }
 
 function StackcCategorias() {

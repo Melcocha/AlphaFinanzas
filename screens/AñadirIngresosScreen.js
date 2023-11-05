@@ -71,15 +71,16 @@ categorias.map((cat, index) => (
       Alert.alert("AVISO", "Debes seleccionar una categoría");
     } else {
       // Si hay un valor y se ha seleccionado un ícono, realiza la inserción en la base de datos
+      let valorNumerico = Number(valor);
       firestore().collection("Ingresos").add({
-        valor: valor,
+        valor: valorNumerico,
         comentario: comentario,
         categoria: iconoSeleccionado,
         CatURL: urlSeleccionado,
         userId: uid, // Utiliza la categoría seleccionada
       });
       Alert.alert("Se ha agregado exitosamente su transacción");
-      navigation.navigate("Ingresos");
+      navigation.navigate("HomeIngresos");
     }
   };
   const handleChangeText = (value, field) => {
