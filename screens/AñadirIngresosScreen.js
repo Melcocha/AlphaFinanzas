@@ -12,29 +12,41 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import firestore from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth";
-
-
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 const windowWidth = Dimensions.get("window").width;
 
-const AñadirIngresosScreen = () => {
+const user = auth().currentUser;
+const uid = user.uid;
 
-  const user = auth().currentUser;
-  const uid = user.uid;
+const AñadirIngresosScreen = () => {
   const navigation = useNavigation();
 
-  const [valor, setValor] = useState(""); // Estado para el valor
-  const [comentario, setComentario] = useState(""); // Estado para el comentario
+  const [valor, setValor] = useState("");
+  const [comentario, setComentario] = useState("");
   const [iconoSeleccionado, setIconoSeleccionado] = useState(null);
   const [urlSeleccionado, setUrlSeleccionado] = useState(null);
+  const [isDatePickerVisible, setDatePickerVisible] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const showDatePicker = () => {
+    setDatePickerVisible(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisible(false);
+  };
+
+  const handleDateConfirm = (date) => {
+    hideDatePicker();
+    setSelectedDate(date);
+  };
 
   const handleIconPress = (iconName, url) => {
-    // Deseleccionar el icono previamente seleccionado si hay uno
     if (iconoSeleccionado === iconName) {
       setIconoSeleccionado(null);
       setUrlSeleccionado(null);
     } else {
-      // Seleccionar el nuevo icono
       setIconoSeleccionado(iconName);
       setUrlSeleccionado(url);
     }
@@ -58,33 +70,29 @@ const AñadirIngresosScreen = () => {
       url: "https://firebasestorage.googleapis.com/v0/b/alpha-finanzas.appspot.com/o/Catingresos%2FinterrogationmarkCAT.png?alt=media&token=70bd240e-e79b-477a-b9bb-b363495d62ed",
     },
   ];
-  //console.log(categorias);
-  /*
-categorias.map((cat, index) => (
-  console.log(cat.url)
-))
-*/
+
   const save = () => {
+
+    const formattedDate = `${selectedDate.getFullYear()}/${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}/${selectedDate.getDate().toString().padStart(2, '0')}`;
     if (!valor || valor.trim() === "" || valor < 0) {
-      // Verifica si el campo de valor está vacío o solo contiene espacios en blanco
       Alert.alert("AVISO", "Debes ingresar un Monto válido");
     } else if (!iconoSeleccionado) {
-      // Si no se ha seleccionado un ícono, muestra una alerta
       Alert.alert("AVISO", "Debes seleccionar una categoría");
     } else {
-      // Si hay un valor y se ha seleccionado un ícono, realiza la inserción en la base de datos
       let valorNumerico = Number(valor);
       firestore().collection("Ingresos").add({
         valor: valorNumerico,
         comentario: comentario,
         categoria: iconoSeleccionado,
         CatURL: urlSeleccionado,
-        userId: uid, // Utiliza la categoría seleccionada
+        userId: uid,
+        fecha: formattedDate,
       });
       Alert.alert("Se ha agregado exitosamente su transacción");
       navigation.navigate("HomeIngresos");
     }
   };
+
   const handleChangeText = (value, field) => {
     if (field === "valor") {
       setValor(value);
@@ -92,6 +100,7 @@ categorias.map((cat, index) => (
       setComentario(value);
     }
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.menuSupCat}>
@@ -162,6 +171,22 @@ categorias.map((cat, index) => (
             </TouchableOpacity>
           ))}
         </View>
+        <View style={styles.fechaContainer}>
+        <Text style={styles.titulo}>Fecha:</Text>
+        <TouchableOpacity onPress={showDatePicker}>
+          <Text style={styles.fechaText}>
+            {selectedDate.toLocaleDateString()}
+          </Text>
+        </TouchableOpacity>
+      </View>
+      {isDatePickerVisible && (
+        <DateTimePicker
+          value={selectedDate}
+          mode="date"
+          display="default"
+          onChange={(event, date) => handleDateConfirm(date)}
+        />
+      )}
         <View style={styles.comentarioContainer}>
           <Text style={styles.titulo}>Comentario:</Text>
           <TextInput
@@ -171,6 +196,8 @@ categorias.map((cat, index) => (
           />
         </View>
       </View>
+
+     
 
       <View style={styles.botonContainer}>
         <TouchableOpacity
@@ -232,6 +259,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 15,
   },
+  fechaContainer: {
+    backgroundColor: "#fff",
+    borderRadius: 15,
+  },
   titulo: {
     fontSize: 20,
     fontWeight: "bold",
@@ -267,7 +298,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "transparent",
     backgroundColor: "transparent",
-    borderRadius: 50, // Para hacer que los iconos sean circulares
+    borderRadius: 50,
     padding: 10,
   },
   iconoTexto: {
@@ -293,6 +324,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginVertical: 10,
+  },
+  fechaText: {
+    fontSize: 18,
   },
 });
 
