@@ -144,7 +144,7 @@ const Drawer = createDrawerNavigator();
           <Drawer.Screen name="Categorias" component={StackcCategorias} options={{drawerIcon: ({ color, size }) => (<Icon name="th-large" color="white" size={size} /> ),}}/>
           <Drawer.Screen name="Acerca De" component={AcercaScreen} options={{drawerIcon: ({ color, size }) => (<Icon name="comment-o" color="white" size={size} /> ),}}/>
           <Drawer.Screen name="Ajustes" component={AjusteScreen} options={{drawerIcon: ({ color, size }) => (<Icon name="briefcase" color="white" size={size} /> ),}}/>
-          <Drawer.Screen name="Cerrar Sesión" component={CerrarSesion} options={{drawerIcon: ({ color, size }) => (<Icon name="sign-in" color="white" size={size} /> ),}}/>
+          <Drawer.Screen name="Perfil" component={CerrarSesion} options={{drawerIcon: ({color, size}) => (<Icon name="user" color="white" size={size}  /> ),}}/>
         </Drawer.Navigator>
       );
   }
