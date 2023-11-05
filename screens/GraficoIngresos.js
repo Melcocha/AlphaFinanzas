@@ -3,40 +3,41 @@ import { View, Text } from 'react-native';
 import { PieChart } from 'react-native-svg-charts';
 
 const Grafico = ({totalIngresos, totalcategorias}) => {
-console.log((totalcategorias));
-console.log((totalcategorias.Intereses * 10) / totalIngresos);
-console.log((totalcategorias.Regalos * 10) / totalIngresos);
-console.log((totalcategorias.Otros * 10) / totalIngresos);
-console.log((totalcategorias.Casa * 10) / totalIngresos);
-console.log((totalcategorias.Salario * 10) / totalIngresos);
 
-const data = [
+let data;
+
+if (totalIngresos != 0) {
+  data = [
   {
     key: 'Intereses',
     value: (totalcategorias.Intereses * 100) / totalIngresos,
-    svg: { fill: '#0288D1' },
+    svg: { fill: "#52b3ff" },
   },
   {
     key: 'Regalos',
     value: (totalcategorias.Regalos * 100) / totalIngresos,
-    svg: { fill: '#808080' },
+    svg: { fill: "#cecece" },
   },
   {
     key: 'Otros',
     value: (totalcategorias.Otros * 100) /totalIngresos,
-    svg: { fill: '#aa6000' },
-  },
-  {
-    key: 'Casa',
-    value: (totalcategorias.Casa * 100) /totalIngresos,
-    svg: { fill: '#29B6F6' },
+    svg: { fill: "#c2aa54" },
   },
   {
     key: 'Salario',
     value: (totalcategorias.Salario * 100) /totalIngresos,
-    svg: { fill: '#77DD77' },
+    svg: { fill: "#52ff73" },
   },
 ];
+} else {
+  data = [
+    {
+      key: 'Vacio',
+      value: 100,
+      svg: { fill: '#B9B4C7' },
+    },
+  ]
+}
     return (
     <View style={{width: 300, height: 230, alignItems: 'center', justifyContent: 'center'}}>
         <PieChart

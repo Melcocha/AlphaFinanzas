@@ -4,14 +4,12 @@ import {
   View,
   Text,
   TouchableOpacity,
-  ScrollView,
   FlatList,
   ActivityIndicator,
 } from "react-native";
 import Grafico from "./GraficoGastos";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import AntDesign from "react-native-vector-icons/AntDesign";
-import Fontisto from "react-native-vector-icons/Fontisto";
 import { Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import firestore from "@react-native-firebase/firestore";
@@ -101,7 +99,10 @@ const HomeScreen = () => {
               <Text style={{ fontSize: 25, fontWeight: "700" }}>Total</Text>
               <AntDesign name="caretdown" size={18} color={"#27374D"} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.btnBuscar}  onPress={() => navigation.navigate("Gastos")}>
+            <TouchableOpacity
+              style={styles.btnBuscar}
+              onPress={() => navigation.navigate("Gastos")}
+            >
               <FontAwesome5 name="history" size={28} color={"#27374D"} />
             </TouchableOpacity>
           </View>
@@ -154,40 +155,54 @@ const HomeScreen = () => {
           </TouchableOpacity>
         </View>
         <View style={styles.contenedorInf2}>
-          <FlatList
-            data={Gastos}
-            renderItem={({ item }) => (
-              <View style={styles.lista}>
-                <View>
-                  <Image
-                    contentFit="cover"
-                    source={{ uri: item.CatURL }}
-                    style={{ width: 50, height: 50 }}
-                  />
-                </View>
-                <View style={{ paddingLeft: 10 }}>
-                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    {item.categoria}
-                  </Text>
-                  <Text>{item.comentario}</Text>
-                </View>
-                <View
-                  style={{
-                    flex: 1,
-                    width: "100%",
-                    flexDirection: "row-reverse",
-                  }}
-                >
+          {totalGastos !== 0 ? (
+            <FlatList
+              data={Gastos}
+              renderItem={({ item }) => (
+                <View style={styles.lista}>
                   <View>
+                    <Image
+                      contentFit="cover"
+                      source={{ uri: item.CatURL }}
+                      style={{ width: 50, height: 50 }}
+                    />
+                  </View>
+                  <View style={{ paddingLeft: 10 }}>
                     <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                      ${item.valor}
+                      {item.categoria}
                     </Text>
-                    <Text>Principal</Text>
+                    <Text>{item.comentario}</Text>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      width: "100%",
+                      flexDirection: "row-reverse",
+                    }}
+                  >
+                    <View>
+                      <Text style={{ fontSize: 16, fontWeight: "700" }}>
+                        ${item.valor}
+                      </Text>
+                      <Text>Principal</Text>
+                    </View>
                   </View>
                 </View>
+              )}
+            />
+          ) : (
+            <View style={styles.lista}>
+              <View>
+                <Image contentFit="cover" style={{ width: 50, height: 50 }} />
               </View>
-            )}
-          />
+              <View style={styles.NoMov}>
+                <Text style={{ fontSize: 16, fontWeight: "700" }}>
+                  Sin Gastos
+                </Text>
+                <Text>No se han realizado gastos</Text>
+              </View>
+            </View>
+          )}
         </View>
       </View>
     </>
@@ -199,7 +214,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   menuSup: {
-    flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
@@ -258,7 +272,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   contenedorInf: {
-    flex: 3,
+    flex: 2.5,
     backgroundColor: "#fff",
     borderRadius: 15,
     margin: 8,
@@ -320,6 +334,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     alignItems: "center",
     justifyContent: "center",
+  },
+  NoMov: {
+    alignItems: "center",
+    marginLeft: 30,
   },
 });
 

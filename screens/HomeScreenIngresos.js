@@ -15,7 +15,6 @@ import { useNavigation } from "@react-navigation/native";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { Image } from "react-native";
-import Fontisto from "react-native-vector-icons/Fontisto";
 import firestore from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth";
 
@@ -147,9 +146,10 @@ const HomeScreen = () => {
           </TouchableOpacity>
         </View>
         <View style={styles.contenedorInf2}>
-        <FlatList
-            data={ingresos}
-            renderItem={({ item }) => (
+          {totalIngresos !== 0 ? (
+            <FlatList
+              data={ingresos}
+              renderItem={({ item }) => (
                 <View style={styles.lista}>
                   <View>
                     <Image
@@ -179,8 +179,24 @@ const HomeScreen = () => {
                     </View>
                   </View>
                 </View>
-            )}
-          />
+              )}
+            />
+          ) : (
+            <View style={styles.lista}>
+              <View>
+                <Image
+                  contentFit="cover"
+                  style={{ width: 50, height: 50 }}
+                />
+              </View>
+              <View style={styles.NoMov}>
+                <Text style={{ fontSize: 16, fontWeight: "700" }}>
+                  Sin Ingresos
+                </Text>
+                <Text>No se han realizado ingresos</Text>
+              </View>
+            </View>
+          )}
         </View>
       </View>
     </>
@@ -193,7 +209,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   menuSup: {
-    flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
@@ -252,7 +267,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   contenedorInf: {
-    flex: 3,
+    flex: 2.5,
     backgroundColor: "#fff",
     borderRadius: 15,
     margin: 8,
@@ -314,6 +329,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     alignItems: "center",
     justifyContent: "center",
+  },
+  NoMov: {
+    alignItems: "center",
+    marginLeft: 30,
   },
 });
 
