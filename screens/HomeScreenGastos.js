@@ -193,7 +193,7 @@ const HomeScreen = () => {
           ) : (
             <View style={styles.lista}>
               <View>
-                <Image contentFit="cover" style={{ width: 50, height: 50 }} />
+                
               </View>
               <View style={styles.NoMov}>
                 <Text style={{ fontSize: 16, fontWeight: "700" }}>
@@ -337,7 +337,7 @@ const styles = StyleSheet.create({
   },
   NoMov: {
     alignItems: "center",
-    marginLeft: 30,
+    marginLeft: 80,
   },
 });
 
