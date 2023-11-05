@@ -70,9 +70,9 @@ const AñadirGastosScreen = () => {
   ];
 
   const save = () => {
-    if (!valor || valor.trim() === "") {
+    if (!valor || valor.trim() === "" || valor < 0) {
       // Verifica si el campo de valor está vacío o solo contiene espacios en blanco
-      Alert.alert("AVISO", "Debes ingresar un valor válido");
+      Alert.alert("AVISO", "Debes ingresar un Monto válido");
     } else if (!iconoSeleccionado) {
       // Si no se ha seleccionado un ícono, muestra una alerta
       Alert.alert("AVISO", "Debes seleccionar una categoría");

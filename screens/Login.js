@@ -38,15 +38,15 @@ const LoginScreen = () => {
       await auth()
         .signInWithEmailAndPassword(email, password)
         .then(() => {
-          Alert.alert("logeado exitosamente, Bienvenido: " + email);
+          Alert.alert("BIENVENIDO","logeado exitosamente: " + email);
           navigation.navigate("Inicio");
         })
         .catch((error) => {
           if (error.code === "auth/invalid-login") {
-              Alert.alert("El correo Electrónico o Contraseña son incorrectos!")
+              Alert.alert("ERROR","El correo Electrónico o Contraseña son incorrectos!")
           }
           if (error.code === "auth/invalid-email") {
-            Alert.alert("El correo Electrónico no es válido!")
+            Alert.alert("ERROR","El correo Electrónico no es válido!")
           }
           console.error(error);
         });

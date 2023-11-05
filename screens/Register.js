@@ -34,12 +34,12 @@ const RegisterScreen = () => {
       await auth()
         .createUserWithEmailAndPassword(email, password)
         .then(() => {
-          Alert.alert("Se ha registrado su cuenta correctamente.");
+          Alert.alert("AVISO","Se ha registrado su cuenta correctamente.");
           navigation.navigate("Login")
         })
         .catch((error) => {
           if (error.code === "auth/email-already-in-use") {
-            Alert.alert("El correo Electrónico ya se encuentra registrado!")
+            Alert.alert("AVISO","El correo Electrónico ya se encuentra registrado!")
           }
           console.error(error);
         });

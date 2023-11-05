@@ -6,12 +6,13 @@ import {
   TouchableOpacity,
   FlatList,
   ActivityIndicator,
+  Modal,
 } from "react-native";
 
-import { useNavigation } from "@react-navigation/native";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Fontisto from "react-native-vector-icons/Fontisto";
+import { useNavigation } from "@react-navigation/native";
 import { Image } from "react-native";
 import firestore from "@react-native-firebase/firestore";
 
@@ -20,6 +21,9 @@ const MoviGastosScreen = () => {
 
   const [loading, setLoading] = useState(true); // Activar la carga en el montaje de componentes
   const [gastos, setGastos] = useState([]); // Matriz inicial vacía de gastos
+  const [modalVisible, setModalVisible] = useState(false); // Estado para controlar la visibilidad del primer modal
+  const [confirmVisible, setConfirmVisible] = useState(false); // Estado para controlar la visibilidad del segundo modal
+  const [selectedItem, setSelectedItem] = useState(null); // Estado para guardar el elemento seleccionado
 
   useEffect(() => {
     const subscriber = firestore()
@@ -45,6 +49,31 @@ const MoviGastosScreen = () => {
   if (loading) {
     return <ActivityIndicator />;
   }
+
+  // Función para eliminar una transacción de Firestore
+  const deleteTransaction = async () => {
+    if (selectedItem) {
+      try {
+        await firestore().collection("Gastos").doc(selectedItem.key).delete();
+        console.log("Transacción eliminada");
+        setConfirmVisible(false); // Cerrar el segundo modal
+        setModalVisible(false); // Cerrar el primer modal
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+  };
+
+  // Función para mostrar el primer modal con el elemento seleccionado
+  const showModal = (item) => {
+    setSelectedItem(item);
+    setModalVisible(true);
+  };
+
+  // Función para mostrar el segundo modal con la confirmación
+  const showConfirm = () => {
+    setConfirmVisible(true);
+  };
 
   return (
     <>
@@ -102,43 +131,125 @@ const MoviGastosScreen = () => {
           </View>
           <View>
             <Text style={{ paddingLeft: 10, paddingTop: 10 }}>
-              02 de octubre de 2023
+              Transacciones:
             </Text>
           </View>
           <FlatList
             data={gastos}
             renderItem={({ item }) => (
-              <View style={styles.lista}>
-                <View>
-                  <Image
-                    contentFit="cover"
-                    source={{ uri: item.CatURL }}
-                    style={{ width: 55, height: 55 }}
-                  />
-                </View>
-                <View style={{ paddingLeft: 10 }}>
-                  <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                    {item.categoria}
-                  </Text>
-                  <Text>{item.comentario}</Text>
-                </View>
-                <View
-                  style={{
-                    flex: 1,
-                    width: "100%",
-                    flexDirection: "row-reverse",
-                  }}
-                >
+              <TouchableOpacity onPress={() => showModal(item)}>
+                <View style={styles.lista}>
                   <View>
+                    <Image
+                      contentFit="cover"
+                      source={{ uri: item.CatURL }}
+                      style={{ width: 50, height: 50 }}
+                    />
+                  </View>
+                  <View style={{ paddingLeft: 10 }}>
                     <Text style={{ fontSize: 16, fontWeight: "700" }}>
-                      ${item.valor}
+                      {item.categoria}
                     </Text>
-                    <Text>Principal</Text>
+                    <Text>{item.comentario}</Text>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      width: "100%",
+                      flexDirection: "row-reverse",
+                    }}
+                  >
+                    <View>
+                      <Text style={{ fontSize: 16, fontWeight: "700" }}>
+                        ${item.valor}
+                      </Text>
+                      <Text>Principal</Text>
+                    </View>
                   </View>
                 </View>
-              </View>
+              </TouchableOpacity>
             )}
           />
+
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>
+                  {" "}
+                  ¿Qué quieres hacer con esta transacción?{" "}
+                </Text>
+                <TouchableOpacity
+                  style={[styles.btnDelete]}
+                  onPress={showConfirm}
+                >
+                  <Text
+                    style={{ color: "#fff", fontSize: 18, fontWeight: "bold" }}
+                  >
+                    Eliminar Transacción
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.btnCancel]}
+                  onPress={() => {
+                    setModalVisible(!modalVisible);
+                  }}
+                >
+                  <Text
+                    style={{ color: "black", fontSize: 18, fontWeight: "bold" }}
+                  >
+                    CANCELAR
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={confirmVisible}
+            onRequestClose={() => {
+              setConfirmVisible(!confirmVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>
+                  {" "}
+                  ¿Estás seguro de eliminar esta transacción?{" "}
+                </Text>
+                <TouchableOpacity
+                  style={[styles.btnDelete]}
+                  onPress={deleteTransaction}
+                >
+                  <Text
+                    style={{ color: "#fff", fontSize: 18, fontWeight: "bold" }}
+                  >
+                    Sí
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.btnCancel]}
+                  onPress={() => {
+                    setConfirmVisible(!confirmVisible);
+                    setModalVisible(!modalVisible);
+                  }}
+                >
+                  <Text
+                    style={{ color: "black", fontSize: 18, fontWeight: "bold" }}
+                  >
+                    No
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
 
           <TouchableOpacity
             style={styles.btnAdd}
@@ -151,6 +262,7 @@ const MoviGastosScreen = () => {
     </>
   );
 };
+
 const styles = StyleSheet.create({
   ingresos: {
     flex: 1,
@@ -197,7 +309,7 @@ const styles = StyleSheet.create({
   lista: {
     flex: 1,
     flexDirection: "row",
-    height: 80,
+    height: 70,
     backgroundColor: "#fff",
     borderRadius: 5,
     marginLeft: 6,
@@ -265,12 +377,56 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     backgroundColor: "#FFC436",
     position: "absolute",
-    right: 0,
+    alignSelf: "center",
     bottom: 0,
     marginRight: 10,
     marginBottom: 10,
     alignItems: "center",
     justifyContent: "center",
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+    fontSize: 18,
+    fontWeight: "500",
+  },
+  btnDelete: {
+    marginTop: 10,
+    width: 200,
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FC2947",
+    borderRadius: 5,
+    marginBottom: 20,
+  },
+  btnCancel: {
+    marginTop: 10,
+    width: 200,
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FFC436",
+    borderRadius: 5,
+    marginBottom: 20,
   },
 });
 

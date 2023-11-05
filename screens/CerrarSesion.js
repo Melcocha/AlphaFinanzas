@@ -12,7 +12,7 @@ const CerrarSesionScreen = () => {
       .signOut()
       .then(() => {
         console.log("Se cerro la sesion con exito");
-        Alert.alert("Se cerro la sesión con exito");
+        Alert.alert("AVISO","Se cerro la sesión exitosamente");
         navigation.navigate("LoginHome");
       })
 
@@ -27,7 +27,7 @@ const CerrarSesionScreen = () => {
       await GoogleSignin.signOut();
       await auth().signOut();
       console.log("Se cerro la sesion con exito");
-      Alert.alert("Se cerro la sesión con exito");
+      Alert.alert("AVISO","Se cerro la sesión con exito");
       navigation.navigate("LoginHome");
     } catch (error) {
       console.log(error);
