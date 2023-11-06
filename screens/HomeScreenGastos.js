@@ -73,10 +73,6 @@ const HomeScreen = () => {
           setGastos(Gastos);
           setLoading(false);
         }
-
-        //Comprobando
-        console.log("Total de Gastos:", totalGastos);
-        console.log("Total", categoriaTotales);
       });
     // Cancelar la suscripción a eventos cuando ya no se utilicensds
     return () => {

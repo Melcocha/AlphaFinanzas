@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Button, Alert, StyleSheet, TouchableOpacity, Text} from "react-native";
+import { View, Alert, StyleSheet, TouchableOpacity, Text} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import auth from "@react-native-firebase/auth";

@@ -69,12 +69,7 @@ const HomeScreen = () => {
         setCategoriasTotales(newCategoriaTotrales);
         setIngresos(ingresos);
         setLoading(false);
-        }
-
-        //Comprobando
-        console.log("Total de ingresos:", totalIngresos);
-        console.log("Total", categoriaTotales);
-        
+        }     
       });
     // Cancelar la suscripción a eventos cuando ya no se utilicensdsds
     return () => {

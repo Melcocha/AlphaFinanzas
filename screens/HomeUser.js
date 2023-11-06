@@ -30,13 +30,13 @@ const HomeScreenUser = () => {
       </View>
       <View style={styles.bottomSection}>
         <TouchableOpacity
-          style={[styles.button, { backgroundColor: '#FFC436', borderRadius: 10 }]}
+          style={[styles.button, { backgroundColor: '#FFC436', borderRadius: 5 }]}
           onPress={handleLogin}
         >
           <Text style={[styles.buttonText, { color: 'black' }]}>Iniciar Sesión</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.button, { backgroundColor: '#FFC436', borderRadius: 10 }]}
+          style={[styles.button, { backgroundColor: '#FFC436', borderRadius: 5 }]}
           onPress={handleRegister}
         >
           <Text style={[styles.buttonText, { color: 'black' }]}>Registrarse</Text>
@@ -57,7 +57,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   bottomSection: {
-
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -76,6 +75,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginVertical: 10,
+    marginTop:25
   },
   buttonText: {
     fontSize: 18,

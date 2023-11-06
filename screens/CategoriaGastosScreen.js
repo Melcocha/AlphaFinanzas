@@ -119,34 +119,34 @@ const CategoriaGastosScreen = () => {
                 </View>
                 <View style={styles.contenedorcateg}>
                   <View style={styles.conttextos}>
-                    <Image
+                  <Image
                       style={styles.image}
                       contentFit="cover"
-                      source={require("../assets/mortarboardCAT.png")}
+                      source={{ uri: item.estudio }}
                     />
                     <Text style={styles.textos}>Educación</Text>
                   </View>
                   <View style={styles.conttextos}>
-                    <Image
+                  <Image
                       style={styles.image}
                       contentFit="cover"
-                      source={require("../assets/giftboxCAT.png")}
+                      source={{ uri: item.regalos }}
                     />
                     <Text style={styles.textos}>Regalos</Text>
                   </View>
                   <View style={styles.conttextos}>
-                    <Image
+                  <Image
                       style={styles.image}
                       contentFit="cover"
-                      source={require("../assets/healthy-foodCAT.png")}
+                      source={{ uri: item.alimentacion }}
                     />
                     <Text style={styles.textos}>Alimentación</Text>
                   </View>
                   <View style={styles.conttextos}>
-                    <Image
+                  <Image
                       style={styles.image}
                       contentFit="cover"
-                      source={require("../assets/interrogationmarkCAT.png")}
+                      source={{ uri: item.otros }}
                     />
                     <Text style={styles.textos}>Otros</Text>
                   </View>
