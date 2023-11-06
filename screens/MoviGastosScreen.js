@@ -16,6 +16,8 @@ import { useNavigation } from "@react-navigation/native";
 import { Image } from "react-native";
 import firestore from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const MoviGastosScreen = () => {
   const navigation = useNavigation();
@@ -25,6 +27,11 @@ const MoviGastosScreen = () => {
   const [modalVisible, setModalVisible] = useState(false); // Estado para controlar la visibilidad del primer modal
   const [confirmVisible, setConfirmVisible] = useState(false); // Estado para controlar la visibilidad del segundo modal
   const [selectedItem, setSelectedItem] = useState(null); // Estado para guardar el elemento seleccionado
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [startDatePickerVisible, setStartDatePickerVisible] = useState(false);
+  const [endDatePickerVisible, setEndDatePickerVisible] = useState(false);
+  const [filteredIngresos, setFilteredIngresos] = useState([]);
   const user = auth().currentUser;
   const uid = user.uid;
   const totalIngresos = gastos.reduce((total, item) => total + parseFloat(item.valor), 0);
@@ -80,6 +87,78 @@ const MoviGastosScreen = () => {
     setConfirmVisible(true);
   };
 
+  const removefilterIngresos = () => {
+
+    const subscriber =
+
+      firestore()
+        .collection("Gastos")
+        .where("userId", "==", uid)
+
+        .onSnapshot((querySnapshot) => {
+          if (querySnapshot && !querySnapshot.empty) {
+            const ingresos = [];
+            console.log('se encontraron documentos')
+            querySnapshot.forEach((documentSnapshot) => {
+              ingresos.push({
+                ...documentSnapshot.data(),
+                key: documentSnapshot.id,
+              });
+            });
+
+            setGastos(ingresos);
+            setLoading(false);
+          } else {
+            
+          }
+
+        });
+
+    return () => subscriber();
+
+  };
+  const filterIngresosByDate = () => {
+
+
+    const formattedDateStart = `${startDate.getFullYear()}/${(
+      startDate.getMonth() + 1
+    ).toString().padStart(2, "0")}/${startDate.getDate().toString().padStart(2, "0")}`;
+
+    const formattedDateEnd = `${endDate.getFullYear()}/${(
+      endDate.getMonth() + 1
+    ).toString().padStart(2, "0")}/${endDate.getDate().toString().padStart(2, "0")}`;
+    const subscriber =
+
+      firestore()
+        .collection("Gastos")
+        .where("userId", "==", uid)
+        .where("fecha", ">=", formattedDateStart)
+        .where("fecha", "<=", formattedDateEnd)
+        .orderBy("fecha", "desc")
+
+        .onSnapshot((querySnapshot) => {
+          if (querySnapshot && !querySnapshot.empty) {
+            const ingresos = [];
+            console.log('se encontraron documentos')
+            querySnapshot.forEach((documentSnapshot) => {
+              ingresos.push({
+                ...documentSnapshot.data(),
+                key: documentSnapshot.id,
+              });
+            });
+
+            setGastos(ingresos);
+            setLoading(false);
+          } else {
+            
+          }
+
+        });
+
+    return () => subscriber();
+
+  };
+
   return (
     <>
       <View style={styles.ingresos}>
@@ -115,24 +194,47 @@ const MoviGastosScreen = () => {
 
         <View style={styles.contenedorInf}>
           <View style={styles.fechascont}>
-            <TouchableOpacity>
-              <Text style={styles.fechasetxt}>Día</Text>
+            <TouchableOpacity onPress={() => setStartDatePickerVisible(true)}>
+              <Text style={styles.fechasetxt}>Fecha Inicial</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
-              <Text style={styles.fechasetxtse}>Semana</Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Text style={styles.fechasetxt}>Mes</Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Text style={styles.fechasetxt}>Año</Text>
+            <TouchableOpacity onPress={() => setEndDatePickerVisible(true)}>
+              <Text style={styles.fechasetxt}>Fecha Final</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.selectorfecha}>
-            <TouchableOpacity>
-              <Text style={styles.selectorfechatxt}>02 oct. - 08 oct.</Text>
+            {startDatePickerVisible && (
+              <DateTimePicker
+                value={startDate}
+                mode="date"
+                display="calendar"
+                onChange={(event, selectedDate) => {
+                  if (selectedDate) {
+                    setStartDate(selectedDate);
+                  }
+                  setStartDatePickerVisible(false);
+                }}
+              />
+            )}
+            {endDatePickerVisible && (
+              <DateTimePicker
+                value={endDate}
+                mode="date"
+                display="calendar"
+                onChange={(event, selectedDate) => {
+                  if (selectedDate) {
+                    setEndDate(selectedDate);
+                  }
+                  setEndDatePickerVisible(false);
+                }}
+              />
+            )}
+            <TouchableOpacity onPress={filterIngresosByDate}>
+              <Text style={styles.selectorfechatxt}>Filtrar</Text>
             </TouchableOpacity>
             <Text style={styles.selectorfechatxt}>Total: ${totalIngresos}</Text>
+            <TouchableOpacity onPress={removefilterIngresos}>
+            <Icon name="refresh" size={30} color="#900" />
+            </TouchableOpacity>
           </View>
           <View>
             <Text style={{ paddingLeft: 10, paddingTop: 10 }}>

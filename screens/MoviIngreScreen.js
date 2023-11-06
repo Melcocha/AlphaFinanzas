@@ -7,27 +7,38 @@ import {
   FlatList,
   ActivityIndicator,
   Modal,
+  Image,
 } from "react-native";
-
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-import AntDesign from "react-native-vector-icons/AntDesign";
-import Fontisto from "react-native-vector-icons/Fontisto";
-import { useNavigation } from "@react-navigation/native";
-import { Image } from "react-native";
 import firestore from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth";
+import { useNavigation } from "@react-navigation/native";
+import DateTimePicker from "@react-native-community/datetimepicker"; // Importa DateTimePicker
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5"; // Importa FontAwesome5
+import AntDesign from "react-native-vector-icons/AntDesign"; // Importa AntDesign
+import Fontisto from "react-native-vector-icons/Fontisto"; // Importa Fontisto
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const MoviIngreScreen = () => {
   const navigation = useNavigation();
 
-  const [loading, setLoading] = useState(true); // Activar la carga en el montaje de componentes
-  const [ingresos, setIngresos] = useState([]); // Matriz inicial vacía de ingresos
-  const [modalVisible, setModalVisible] = useState(false); // Estado para controlar la visibilidad del primer modal
-  const [confirmVisible, setConfirmVisible] = useState(false); // Estado para controlar la visibilidad del segundo modal
-  const [selectedItem, setSelectedItem] = useState(null); // Estado para guardar el elemento seleccionado
+  const [loading, setLoading] = useState(true);
+  const [ingresos, setIngresos] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [confirmVisible, setConfirmVisible] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [startDatePickerVisible, setStartDatePickerVisible] = useState(false);
+  const [endDatePickerVisible, setEndDatePickerVisible] = useState(false);
+  const [filteredIngresos, setFilteredIngresos] = useState([]);
+
   const user = auth().currentUser;
   const uid = user.uid;
-  const totalIngresos = ingresos.reduce((total, item) => total + parseFloat(item.valor), 0);
+
+  const totalIngresos = ingresos.reduce(
+    (total, item) => total + parseFloat(item.valor),
+    0
+  );
 
   useEffect(() => {
     const subscriber = firestore()
@@ -47,38 +58,106 @@ const MoviIngreScreen = () => {
         setLoading(false);
       });
 
-    // Cancelar la suscripción a eventos cuando ya no se utilicen
     return () => subscriber();
   }, []);
 
-  if (loading) {
-    return <ActivityIndicator />;
-  }
-
-  // Función para eliminar una transacción de Firestore
   const deleteTransaction = async () => {
     if (selectedItem) {
       try {
         await firestore().collection("Ingresos").doc(selectedItem.key).delete();
         console.log("Transacción eliminada");
-        setConfirmVisible(false); // Cerrar el segundo modal
-        setModalVisible(false); // Cerrar el primer modal
+        setConfirmVisible(false);
+        setModalVisible(false);
       } catch (error) {
         console.log(error.message);
       }
     }
   };
 
-  // Función para mostrar el primer modal con el elemento seleccionado
   const showModal = (item) => {
     setSelectedItem(item);
     setModalVisible(true);
   };
 
-  // Función para mostrar el segundo modal con la confirmación
   const showConfirm = () => {
     setConfirmVisible(true);
   };
+
+  const removefilterIngresos = () => {
+
+    const subscriber =
+
+      firestore()
+        .collection("Ingresos")
+        .where("userId", "==", uid)
+
+        .onSnapshot((querySnapshot) => {
+          if (querySnapshot && !querySnapshot.empty) {
+            const ingresos = [];
+            console.log('se encontraron documentos')
+            querySnapshot.forEach((documentSnapshot) => {
+              ingresos.push({
+                ...documentSnapshot.data(),
+                key: documentSnapshot.id,
+              });
+            });
+
+            setIngresos(ingresos);
+            setLoading(false);
+          } else {
+            console.log("No se encontraron documentos que cumplan con el filtro.");
+          }
+
+        });
+
+    return () => subscriber();
+
+  };
+  const filterIngresosByDate = () => {
+
+
+    const formattedDateStart = `${startDate.getFullYear()}/${(
+      startDate.getMonth() + 1
+    ).toString().padStart(2, "0")}/${startDate.getDate().toString().padStart(2, "0")}`;
+
+    const formattedDateEnd = `${endDate.getFullYear()}/${(
+      endDate.getMonth() + 1
+    ).toString().padStart(2, "0")}/${endDate.getDate().toString().padStart(2, "0")}`;
+    const subscriber =
+
+      firestore()
+        .collection("Ingresos")
+        .where("userId", "==", uid)
+        .where("fecha", ">=", formattedDateStart)
+        .where("fecha", "<=", formattedDateEnd)
+        .orderBy("fecha", "desc")
+
+        .onSnapshot((querySnapshot) => {
+          if (querySnapshot && !querySnapshot.empty) {
+            const ingresos = [];
+            console.log('se encontraron documentos')
+            querySnapshot.forEach((documentSnapshot) => {
+              ingresos.push({
+                ...documentSnapshot.data(),
+                key: documentSnapshot.id,
+              });
+            });
+
+            setIngresos(ingresos);
+            setLoading(false);
+          } else {
+            console.log("No se encontraron documentos que cumplan con el filtro.");
+          }
+
+        });
+
+    return () => subscriber();
+
+  };
+
+  if (loading) {
+    return <ActivityIndicator />;
+  }
 
   return (
     <>
@@ -115,24 +194,47 @@ const MoviIngreScreen = () => {
 
         <View style={styles.contenedorInf}>
           <View style={styles.fechascont}>
-            <TouchableOpacity>
-              <Text style={styles.fechasetxt}>Día</Text>
+            <TouchableOpacity onPress={() => setStartDatePickerVisible(true)}>
+              <Text style={styles.fechasetxt}>Fecha Inicial</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
-              <Text style={styles.fechasetxtse}>Semana</Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Text style={styles.fechasetxt}>Mes</Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Text style={styles.fechasetxt}>Año</Text>
+            <TouchableOpacity onPress={() => setEndDatePickerVisible(true)}>
+              <Text style={styles.fechasetxt}>Fecha Final</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.selectorfecha}>
-            <TouchableOpacity>
-              <Text style={styles.selectorfechatxt}>02 oct. - 08 oct.</Text>
+            {startDatePickerVisible && (
+              <DateTimePicker
+                value={startDate}
+                mode="date"
+                display="calendar"
+                onChange={(event, selectedDate) => {
+                  if (selectedDate) {
+                    setStartDate(selectedDate);
+                  }
+                  setStartDatePickerVisible(false);
+                }}
+              />
+            )}
+            {endDatePickerVisible && (
+              <DateTimePicker
+                value={endDate}
+                mode="date"
+                display="calendar"
+                onChange={(event, selectedDate) => {
+                  if (selectedDate) {
+                    setEndDate(selectedDate);
+                  }
+                  setEndDatePickerVisible(false);
+                }}
+              />
+            )}
+            <TouchableOpacity onPress={filterIngresosByDate}>
+              <Text style={styles.selectorfechatxt}>Filtrar</Text>
             </TouchableOpacity>
             <Text style={styles.selectorfechatxt}>Total: ${totalIngresos}</Text>
+            <TouchableOpacity onPress={removefilterIngresos}>
+            <Icon name="refresh" size={30} color="#900" />
+            </TouchableOpacity>
           </View>
           <View>
             <Text style={{ paddingLeft: 10, paddingTop: 10 }}>
@@ -140,7 +242,7 @@ const MoviIngreScreen = () => {
             </Text>
           </View>
           <FlatList
-            data={ingresos}
+            data={filteredIngresos.length > 0 ? filteredIngresos : ingresos}
             renderItem={({ item }) => (
               <TouchableOpacity onPress={() => showModal(item)}>
                 <View style={styles.lista}>
@@ -176,7 +278,7 @@ const MoviIngreScreen = () => {
               </TouchableOpacity>
             )}
           />
-  
+
           <Modal
             animationType="slide"
             transparent={true}
@@ -228,7 +330,7 @@ const MoviIngreScreen = () => {
               <View style={styles.modalView}>
                 <Text style={styles.modalText}>
                   {" "}
-                  ¿Estás seguro de eliminar esta transacción?{" "}
+                  ¿Estás seguro de eliminar esta transacción?
                 </Text>
                 <TouchableOpacity
                   style={[styles.btnDelete]}
