@@ -96,7 +96,7 @@ const LoginScreen = () => {
       const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 
       console.log(user);
-      Alert.alert("Se inicio sesión correctamente");
+      Alert.alert("BIENVENIDO","logeado exitosamente: " + user.givenName+" "+user.familyName);
       navigation.navigate("Inicio");
 
       // Sign-in the user with the credential
