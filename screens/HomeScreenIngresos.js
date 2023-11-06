@@ -121,18 +121,7 @@ const HomeScreen = () => {
         </View>
         <View style={styles.contenedorInf}>
           <View style={styles.fechascont}>
-            <TouchableOpacity>
-              <Text style={styles.fechasetxt}>Día</Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Text style={styles.fechasetxtse}>Semana</Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Text style={styles.fechasetxt}>Mes</Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Text style={styles.fechasetxt}>Año</Text>
-            </TouchableOpacity>
+              <Text style={styles.fechasetxt}>Balance de Ingresos</Text>
           </View>
           <View style={{ flex: 1, alignItems: "center" }}>
             <Grafico totalIngresos={totalIngresos} totalcategorias={categoriaTotales} />
@@ -283,14 +272,15 @@ const styles = StyleSheet.create({
   fechascont: {
     flexDirection: "row",
     width: "100%",
-    justifyContent: "space-between",
+    justifyContent:'center',
     paddingRight: 40,
     paddingLeft: 40,
     paddingTop: 10,
   },
   fechasetxt: {
-    fontSize: 22,
-    fontWeight: "500",
+    fontSize: 25,
+    fontWeight: "700",
+    color:'#27374D'
   },
   fechasetxtse: {
     fontSize: 22,

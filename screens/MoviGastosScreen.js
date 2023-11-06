@@ -17,7 +17,7 @@ import { Image } from "react-native";
 import firestore from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const MoviGastosScreen = () => {
   const navigation = useNavigation();
@@ -34,7 +34,10 @@ const MoviGastosScreen = () => {
   const [filteredIngresos, setFilteredIngresos] = useState([]);
   const user = auth().currentUser;
   const uid = user.uid;
-  const totalIngresos = gastos.reduce((total, item) => total + parseFloat(item.valor), 0);
+  const totalIngresos = gastos.reduce(
+    (total, item) => total + parseFloat(item.valor),
+    0
+  );
 
   useEffect(() => {
     const subscriber = firestore()
@@ -88,75 +91,66 @@ const MoviGastosScreen = () => {
   };
 
   const removefilterIngresos = () => {
+    const subscriber = firestore()
+      .collection("Gastos")
+      .where("userId", "==", uid)
 
-    const subscriber =
-
-      firestore()
-        .collection("Gastos")
-        .where("userId", "==", uid)
-
-        .onSnapshot((querySnapshot) => {
-          if (querySnapshot && !querySnapshot.empty) {
-            const ingresos = [];
-            console.log('se encontraron documentos')
-            querySnapshot.forEach((documentSnapshot) => {
-              ingresos.push({
-                ...documentSnapshot.data(),
-                key: documentSnapshot.id,
-              });
+      .onSnapshot((querySnapshot) => {
+        if (querySnapshot && !querySnapshot.empty) {
+          const ingresos = [];
+          console.log("se encontraron documentos");
+          querySnapshot.forEach((documentSnapshot) => {
+            ingresos.push({
+              ...documentSnapshot.data(),
+              key: documentSnapshot.id,
             });
+          });
 
-            setGastos(ingresos);
-            setLoading(false);
-          } else {
-            
-          }
-
-        });
+          setGastos(ingresos);
+          setLoading(false);
+        } else {
+        }
+      });
 
     return () => subscriber();
-
   };
   const filterIngresosByDate = () => {
-
-
     const formattedDateStart = `${startDate.getFullYear()}/${(
       startDate.getMonth() + 1
-    ).toString().padStart(2, "0")}/${startDate.getDate().toString().padStart(2, "0")}`;
+    )
+      .toString()
+      .padStart(2, "0")}/${startDate.getDate().toString().padStart(2, "0")}`;
 
     const formattedDateEnd = `${endDate.getFullYear()}/${(
       endDate.getMonth() + 1
-    ).toString().padStart(2, "0")}/${endDate.getDate().toString().padStart(2, "0")}`;
-    const subscriber =
+    )
+      .toString()
+      .padStart(2, "0")}/${endDate.getDate().toString().padStart(2, "0")}`;
+    const subscriber = firestore()
+      .collection("Gastos")
+      .where("userId", "==", uid)
+      .where("fecha", ">=", formattedDateStart)
+      .where("fecha", "<=", formattedDateEnd)
+      .orderBy("fecha", "desc")
 
-      firestore()
-        .collection("Gastos")
-        .where("userId", "==", uid)
-        .where("fecha", ">=", formattedDateStart)
-        .where("fecha", "<=", formattedDateEnd)
-        .orderBy("fecha", "desc")
-
-        .onSnapshot((querySnapshot) => {
-          if (querySnapshot && !querySnapshot.empty) {
-            const ingresos = [];
-            console.log('se encontraron documentos')
-            querySnapshot.forEach((documentSnapshot) => {
-              ingresos.push({
-                ...documentSnapshot.data(),
-                key: documentSnapshot.id,
-              });
+      .onSnapshot((querySnapshot) => {
+        if (querySnapshot && !querySnapshot.empty) {
+          const ingresos = [];
+          console.log("se encontraron documentos");
+          querySnapshot.forEach((documentSnapshot) => {
+            ingresos.push({
+              ...documentSnapshot.data(),
+              key: documentSnapshot.id,
             });
+          });
 
-            setGastos(ingresos);
-            setLoading(false);
-          } else {
-            
-          }
-
-        });
+          setGastos(ingresos);
+          setLoading(false);
+        } else {
+        }
+      });
 
     return () => subscriber();
-
   };
 
   return (
@@ -166,12 +160,10 @@ const MoviGastosScreen = () => {
           <View style={styles.opciones}>
             <TouchableOpacity style={styles.btnCuenta}>
               <FontAwesome5 name="comment-dollar" size={24} color={"#27374D"} />
-              <Text style={{ fontSize: 25, fontWeight: "700" }}>Total</Text>
+              <Text style={{ fontSize: 22, fontWeight: "700" }}>Principal</Text>
               <AntDesign name="caretdown" size={18} color={"#27374D"} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.btnBuscar}>
-              <Fontisto name="search" size={28} color={"#27374D"} />
-            </TouchableOpacity>
+            <Text style={styles.selectorfechatxt}>Total: ${totalIngresos}</Text>
           </View>
           <View style={styles.BotonesP}>
             <TouchableOpacity onPress={() => navigation.navigate("Ingresos")}>
@@ -194,10 +186,10 @@ const MoviGastosScreen = () => {
 
         <View style={styles.contenedorInf}>
           <View style={styles.fechascont}>
-            <TouchableOpacity onPress={() => setStartDatePickerVisible(true)}>
+            <TouchableOpacity onPress={() => setStartDatePickerVisible(true)} style={styles.btnFecha}>
               <Text style={styles.fechasetxt}>Fecha Inicial</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setEndDatePickerVisible(true)}>
+            <TouchableOpacity onPress={() => setEndDatePickerVisible(true)} style={styles.btnFecha}>
               <Text style={styles.fechasetxt}>Fecha Final</Text>
             </TouchableOpacity>
           </View>
@@ -228,16 +220,22 @@ const MoviGastosScreen = () => {
                 }}
               />
             )}
-            <TouchableOpacity onPress={filterIngresosByDate}>
-              <Text style={styles.selectorfechatxt}>Filtrar</Text>
+            <TouchableOpacity onPress={filterIngresosByDate} style={styles.btnF}>
+              <Text style={styles.btnFiltrar}>Filtrar</Text>
             </TouchableOpacity>
-            <Text style={styles.selectorfechatxt}>Total: ${totalIngresos}</Text>
             <TouchableOpacity onPress={removefilterIngresos}>
-            <Icon name="refresh" size={30} color="#900" />
+              <Icon name="refresh" size={30} color="#900" />
             </TouchableOpacity>
           </View>
           <View>
-            <Text style={{ paddingLeft: 10, paddingTop: 10 }}>
+            <Text
+              style={{
+                paddingLeft: 10,
+                paddingTop: 10,
+                fontWeight: "bold",
+                fontSize: 18,
+              }}
+            >
               Transacciones:
             </Text>
           </View>
@@ -290,8 +288,7 @@ const MoviGastosScreen = () => {
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <Text style={styles.modalText}>
-                  {" "}
-                  ¿Qué quieres hacer con esta transacción?{" "}
+                  ¿Qué quieres hacer con esta transacción?
                 </Text>
                 <TouchableOpacity
                   style={[styles.btnDelete]}
@@ -402,6 +399,11 @@ const styles = StyleSheet.create({
   btnBuscar: {
     flexDirection: "row",
   },
+  btnFecha:{
+    backgroundColor:'#FFC436',
+    padding:5,
+    borderRadius:5
+  },
   BotonesP: {
     borderBottomLeftRadius: 25,
     borderBottomRightRadius: 25,
@@ -452,7 +454,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   fechasetxt: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: "500",
   },
   fechasetxtse: {
@@ -470,9 +472,21 @@ const styles = StyleSheet.create({
     paddingTop: 15,
   },
   selectorfechatxt: {
-    fontSize: 18,
-    fontWeight: "500",
+    fontSize: 22,
+    fontWeight: "700",
     textDecorationLine: "underline",
+  },
+  btnFiltrar: {
+    fontSize: 22,
+    fontWeight: "700",
+    textDecorationLine: "underline",
+    color: "#FFF"
+  },
+  btnF: {
+    backgroundColor:'#27374D',
+    paddingLeft:10,
+    paddingRight:10,
+    borderRadius:5
   },
   scrollcont: {
     marginTop: 12,

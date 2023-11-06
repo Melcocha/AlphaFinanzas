@@ -176,7 +176,7 @@ const AñadirIngresosScreen = () => {
         </View>
         <View style={styles.fechaContainer}>
           <Text style={styles.titulo}>Fecha:</Text>
-          <TouchableOpacity onPress={showDatePicker}>
+          <TouchableOpacity onPress={showDatePicker} style={styles.selectFecha}>
             <Text style={styles.fechaText}>
               {selectedDate.toLocaleDateString()}
             </Text>
@@ -328,6 +328,13 @@ const styles = StyleSheet.create({
   },
   fechaText: {
     fontSize: 18,
+    fontWeight:'600'
+  },
+  selectFecha: {
+    backgroundColor: "#FFC436",
+    borderRadius: 5,
+    padding: 5,
+    width: 100,
   },
 });
 

@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 30,
   },
   categorias: {
-    flex: 6,
+    flex: 8,
     backgroundColor: "#fff",
     borderRadius: 15,
     margin: 8,
