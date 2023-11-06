@@ -163,6 +163,7 @@ const HomeScreen = () => {
                       {item.categoria}
                     </Text>
                     <Text>{item.comentario}</Text>
+                    <Text>{item.fecha}</Text>
                   </View>
                   <View
                     style={{
@@ -246,7 +247,7 @@ const styles = StyleSheet.create({
   lista: {
     flex: 1,
     flexDirection: "row",
-    height: 80,
+    height: 75,
     backgroundColor: "#fff",
     borderRadius: 5,
     marginLeft: 6,

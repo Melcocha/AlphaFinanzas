@@ -12,20 +12,35 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import firestore from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth";
-
-
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 const windowWidth = Dimensions.get("window").width;
 
 const AñadirGastosScreen = () => {
-  const user = auth().currentUser;
-const uid = user.uid;
   const navigation = useNavigation();
+
+  const user = auth().currentUser;
+  const uid = user.uid;
 
   const [valor, setValor] = useState(""); // Estado para el valor
   const [comentario, setComentario] = useState(""); // Estado para el comentario
   const [iconoSeleccionado, setIconoSeleccionado] = useState(null);
   const [urlSeleccionado, setUrlSeleccionado] = useState(null);
+  const [isDatePickerVisible, setDatePickerVisible] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const showDatePicker = () => {
+    setDatePickerVisible(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisible(false);
+  };
+
+  const handleDateConfirm = (date) => {
+    hideDatePicker();
+    setSelectedDate(date);
+  };
 
   const handleIconPress = (iconName, url) => {
     // Deseleccionar el icono previamente seleccionado si hay uno
@@ -75,6 +90,11 @@ const uid = user.uid;
   ];
 
   const save = () => {
+    const formattedDate = `${selectedDate.getFullYear()}/${(
+      selectedDate.getMonth() + 1
+    )
+      .toString()
+      .padStart(2, "0")}/${selectedDate.getDate().toString().padStart(2, "0")}`;
     if (!valor || valor.trim() === "" || valor < 0) {
       // Verifica si el campo de valor está vacío o solo contiene espacios en blanco
       Alert.alert("AVISO", "Debes ingresar un Monto válido");
@@ -90,6 +110,7 @@ const uid = user.uid;
         categoria: iconoSeleccionado,
         CatURL: urlSeleccionado,
         userId: uid, // Utiliza la categoría seleccionada
+        fecha: formattedDate,
       });
       Alert.alert("Se ha agregado exitosamente su transacción");
       navigation.navigate("HomeGastos");
@@ -173,7 +194,22 @@ const uid = user.uid;
             </TouchableOpacity>
           ))}
         </View>
-
+        <View style={styles.fechaContainer}>
+          <Text style={styles.titulo}>Fecha:</Text>
+          <TouchableOpacity onPress={showDatePicker}>
+            <Text style={styles.fechaText}>
+              {selectedDate.toLocaleDateString()}
+            </Text>
+          </TouchableOpacity>
+        </View>
+        {isDatePickerVisible && (
+          <DateTimePicker
+            value={selectedDate}
+            mode="date"
+            display="default"
+            onChange={(event, date) => handleDateConfirm(date)}
+          />
+        )}
         <View style={styles.comentarioContainer}>
           <Text style={styles.titulo}>Comentario:</Text>
           <TextInput
@@ -183,6 +219,7 @@ const uid = user.uid;
           />
         </View>
       </View>
+
       <View style={styles.botonContainer}>
         <View style={styles.botonContainer}>
           <TouchableOpacity
@@ -245,6 +282,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 15,
   },
+  fechaContainer: {
+    backgroundColor: "#fff",
+    borderRadius: 15,
+  },
   titulo: {
     fontSize: 20,
     fontWeight: "bold",
@@ -280,7 +321,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "transparent",
     backgroundColor: "transparent",
-    borderRadius: 50, // Para hacer que los iconos sean circulares
+    borderRadius: 50,
     padding: 10,
   },
   iconoTexto: {
@@ -306,6 +347,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginVertical: 10,
+  },
+  fechaText: {
+    fontSize: 18,
   },
 });
 

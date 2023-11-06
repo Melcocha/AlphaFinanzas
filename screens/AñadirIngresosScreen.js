@@ -72,8 +72,11 @@ const AñadirIngresosScreen = () => {
   ];
 
   const save = () => {
-
-    const formattedDate = `${selectedDate.getFullYear()}/${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}/${selectedDate.getDate().toString().padStart(2, '0')}`;
+    const formattedDate = `${selectedDate.getFullYear()}/${(
+      selectedDate.getMonth() + 1
+    )
+      .toString()
+      .padStart(2, "0")}/${selectedDate.getDate().toString().padStart(2, "0")}`;
     if (!valor || valor.trim() === "" || valor < 0) {
       Alert.alert("AVISO", "Debes ingresar un Monto válido");
     } else if (!iconoSeleccionado) {
@@ -172,21 +175,21 @@ const AñadirIngresosScreen = () => {
           ))}
         </View>
         <View style={styles.fechaContainer}>
-        <Text style={styles.titulo}>Fecha:</Text>
-        <TouchableOpacity onPress={showDatePicker}>
-          <Text style={styles.fechaText}>
-            {selectedDate.toLocaleDateString()}
-          </Text>
-        </TouchableOpacity>
-      </View>
-      {isDatePickerVisible && (
-        <DateTimePicker
-          value={selectedDate}
-          mode="date"
-          display="default"
-          onChange={(event, date) => handleDateConfirm(date)}
-        />
-      )}
+          <Text style={styles.titulo}>Fecha:</Text>
+          <TouchableOpacity onPress={showDatePicker}>
+            <Text style={styles.fechaText}>
+              {selectedDate.toLocaleDateString()}
+            </Text>
+          </TouchableOpacity>
+        </View>
+        {isDatePickerVisible && (
+          <DateTimePicker
+            value={selectedDate}
+            mode="date"
+            display="default"
+            onChange={(event, date) => handleDateConfirm(date)}
+          />
+        )}
         <View style={styles.comentarioContainer}>
           <Text style={styles.titulo}>Comentario:</Text>
           <TextInput
@@ -196,8 +199,6 @@ const AñadirIngresosScreen = () => {
           />
         </View>
       </View>
-
-     
 
       <View style={styles.botonContainer}>
         <TouchableOpacity
